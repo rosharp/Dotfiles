@@ -1,0 +1,64 @@
+{
+  "alfredtheme" : {
+    "result" : {
+      "textSpacing" : 4,
+      "subtext" : {
+        "size" : 11,
+        "colorSelected" : "#FFFFFFFF",
+        "font" : "Futura",
+        "color" : "#A7A7A7FF"
+      },
+      "shortcut" : {
+        "size" : 16,
+        "colorSelected" : "#FFFFFFFF",
+        "font" : "Futura",
+        "color" : "#A6A6A6FF"
+      },
+      "backgroundSelected" : "#496DC9FF",
+      "text" : {
+        "size" : 16,
+        "colorSelected" : "#FFFFFFFF",
+        "font" : "Futura",
+        "color" : "#4C4C4CFF"
+      },
+      "iconPaddingHorizontal" : 5,
+      "roundness" : 0,
+      "paddingVertical" : 4,
+      "iconSize" : 40
+    },
+    "search" : {
+      "backgroundSelected" : "#5A83D3FF",
+      "paddingHorizontal" : 0,
+      "spacing" : 10,
+      "text" : {
+        "size" : 32,
+        "colorSelected" : "#FFFFFFFF",
+        "font" : "Futura",
+        "color" : "#333333FF"
+      },
+      "background" : "#EBEBEB00",
+      "roundness" : 0,
+      "paddingVertical" : 2
+    },
+    "window" : {
+      "color" : "#EFEFEFFF",
+      "paddingHorizontal" : 10,
+      "width" : 560,
+      "borderPadding" : 10,
+      "borderColor" : "#FFFFFF00",
+      "blur" : 0,
+      "roundness" : 12,
+      "paddingVertical" : 10
+    },
+    "credit" : "Milan van Zanten",
+    "separator" : {
+      "color" : "#BFBFBF00",
+      "thickness" : 1
+    },
+    "scrollbar" : {
+      "color" : "#BFBFBFFF",
+      "thickness" : 2
+    },
+    "name" : "Spruceup (v2)"
+  }
+}
