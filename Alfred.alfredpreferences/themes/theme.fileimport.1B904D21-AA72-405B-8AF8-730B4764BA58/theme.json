@@ -44,9 +44,9 @@
       "color" : "#131516FF",
       "paddingHorizontal" : 2,
       "width" : 607,
-      "borderPadding" : 6,
+      "borderPadding" : 0,
       "borderColor" : "#00000058",
-      "blur" : 15,
+      "blur" : 0,
       "roundness" : 20,
       "paddingVertical" : 8
     },
