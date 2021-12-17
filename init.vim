@@ -1,4 +1,4 @@
-"
+
 "██████╗░░█████╗░  ░██████╗██╗░░██╗░█████╗░██████╗░██████╗░
 "██╔══██╗██╔══██╗  ██╔════╝██║░░██║██╔══██╗██╔══██╗██╔══██╗
 "██████╔╝██║░░██║  ╚█████╗░███████║███████║██████╔╝██████╔╝
@@ -7,56 +7,62 @@
 "╚═╝░░╚═╝░╚════╝░  ╚═════╝░╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░░░░
 
 "█▄░█ █░█ █ █▀▄▀█   █▀▀ █▀█ █▄░█ █░█ █ █▀▀ █░█ █▀█ ▄▀█ ▀█▀ █ █▀█ █▄░█
-"█░▀█ ▀▄▀ █ █░▀░█   █▄▄ █▄█ █░▀█ ▀▄▀ █ █▄█ █▄█ █▀▄ █▀█ ░█░ █ █▄█ █░▀█ 
-"
+"█░▀█ ▀▄▀ █ █░▀░█   █▄▄ █▄█ █░▀█ ▀▄▀ █ █▄█ █▄█ █▀▄ █▀█ ░█░ █ █▄█ █░▀█
 
 " Rellative line numbers
 set rnu
 
 call plug#begin("~/.vim/plugged")
 
-  " Themes
-  Plug 'ayu-theme/ayu-vim'
-  Plug 'altercation/vim-colors-solarized'
-  
-  " Language Client
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  let g:coc_global_extensions = ['coc-emmet', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-tsserver']
-  " TypeScript Highlighting
-  Plug 'leafgarland/typescript-vim'
-  Plug 'peitalin/vim-jsx-typescript'
+" Themes
+Plug 'ayu-theme/ayu-vim'
+Plug 'altercation/vim-colors-solarized'
 
-  " JS
-  Plug '1995eaton/vim-better-javascript-completion'
-
-  " Goyo for beauty
-  Plug 'junegunn/goyo.vim'
-
-  " Emmet for life
-  Plug 'mattn/emmet-vim'
+" Autocomplete
+Plug 'maksimr/vim-jsbeautify'
 
 
-  " File Explorer with Icons
-  Plug 'preservim/nerdtree'
-  Plug 'ryanoasis/vim-devicons'
+" Language Client
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+let g:coc_global_extensions = ['coc-emmet', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-tsserver']
+" TypeScript Highlighting
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
 
-  " File Search
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-  Plug 'junegunn/fzf.vim'
+" Wiki
+Plug 'vimwiki/vimwiki'
+
+" JS
+Plug '1995eaton/vim-better-javascript-completion'
+
+" Goyo for beauty
+Plug 'junegunn/goyo.vim'
+
+" Emmet for life
+Plug 'mattn/emmet-vim'
+
+
+" File Explorer with Icons
+Plug 'preservim/nerdtree'
+Plug 'ryanoasis/vim-devicons'
+
+" File Search
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 call plug#end()
 
 " Enable theming support
 if (has("termguicolors"))
- set termguicolors
+	set termguicolors
 endif
 
-" Theme 
+" Theme
 syntax enable
 set background=dark
 colorscheme ayu
 let g:solarized_termcolors=256
 " Transparency
-hi Normal guibg=NONE ctermbg=NONE
+" hi Normal guibg=NONE ctermbg=NONE
 
 " jQuery
 au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
@@ -68,7 +74,7 @@ map <C-g> :Goyo<CR>
 map <C-t> :NERDTreeToggle<CR>
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
-    \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif
+			\ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif
 
 " Emmet
 let g:user_emmet_install_global = 0
@@ -97,13 +103,32 @@ autocmd FileType apache setlocal commentstring=#\ %s
 
 nnoremap <C-p> :FZF<CR>
 let g:fzf_action = {
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-s': 'split',
-  \ 'ctrl-v': 'vsplit'
-  \}
+			\ 'ctrl-t': 'tab split',
+			\ 'ctrl-s': 'split',
+			\ 'ctrl-v': 'vsplit'
+			\}
 " requires silversearcher-ag
 " used to ignore gitignore files
 let $FZF_DEFAULT_COMMAND = 'ag -g ""'
+
+" Autocomplete
+" JS Beautify
+autocmd FileType javascript noremap <buffer>  <c-]> :call JsBeautify()<cr>
+" for json
+autocmd FileType json noremap <buffer> <c-]> :call JsonBeautify()<cr>
+" for jsx
+autocmd FileType jsx noremap <buffer> <c-]> :call JsxBeautify()<cr>
+" for html
+autocmd FileType html noremap <buffer> <c-]> :call HtmlBeautify()<cr>
+" for css or scss
+autocmd FileType css noremap <buffer> <c-]> :call CSSBeautify()<cr>
+autocmd FileType javascript vnoremap <buffer>  <c-]> :call RangeJsBeautify()<cr>
+autocmd FileType json vnoremap <buffer> <c-]> :call RangeJsonBeautify()<cr>
+autocmd FileType jsx vnoremap <buffer> <c-]> :call RangeJsxBeautify()<cr>
+autocmd FileType html vnoremap <buffer> <c-]> :call RangeHtmlBeautify()<cr>
+autocmd FileType css vnoremap <buffer> <c-]> :call RangeCSSBeautify()<cr>
+
+
 
 " open new split panes to right and below
 set splitright
@@ -128,7 +153,7 @@ au BufEnter * if &buftype == 'terminal' | :startinsert | endif
 " open terminal on ctrl+;
 " uses zsh instead of bash
 function! OpenTerminal()
-  split term://bash
-  resize 10
+	split term://bash
+	resize 10
 endfunction
 nnoremap <c-n> :call OpenTerminal()<CR>
