@@ -1,4 +1,6 @@
-neofetch
+# Enable Neofetch
+# neofetch
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -8,13 +10,13 @@ fi
 
 plugins=(     
  web-search
- zsh-autosuggestions)
+ )
 
 # Autojump implemention
 [[ -s /Users/ro.sharp/.autojump/etc/profile.d/autojump.sh ]] && source /Users/ro.sharp/.autojump/etc/profile.d/autojump.sh
 
 # autocompletion
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#808080"
+# ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#808080"
 
 
 	autoload -U compinit && compinit -u
@@ -26,7 +28,7 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#808080"
 export ZSH="/Users/ro.sharp/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
+# load a random theme each time oh-my-zsh isloaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="mh" # set by `omz`
@@ -91,7 +93,7 @@ ZSH_THEME="mh" # set by `omz`
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions)
+# plugins=(git zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -103,11 +105,11 @@ source $ZSH/oh-my-zsh.sh
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+ if [[ -n $SSH_CONNECTION ]]; then
+   export EDITOR='nvim'
+ else
+   export EDITOR='vim'
+ fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -126,6 +128,9 @@ alias wthr="curl wttr.in/Vladivostok"
 alias nf="neofetch"
 alias spt="spotifyd ; spt"
 alias vim="nvim"
+alias stocks="cd ./mop ; ./mop ; cd ~"
+alias wq="wmctrl -r 'Alacritty' -b toggle,fullscreen"
+alias psst="cd ~/.config/psst/psst-gui/ && cargo run"
 
 # zsh-syntax
 source /Users/ro.sharp/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -133,15 +138,36 @@ source ~/powerlevel10k/powerlevel10k.zsh-theme
 POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
 
 # bindings 
-bindkey '^[[H' beginning-of-line
-bindkey '^[[F' end-of-line
-# bindkey -s '^J' 'clear^M' 
-## ranger
-bindkey -s '^F' 'rn^M'
+## filemanager 
+bindkey -s '^F' 'lf^M'
 ## Execute the current suggestion (using zsh-autosuggestions)
 ## Alt+Enter = '^[^M' on recent VTE and '^[^J' for older (Lxterminal)
 bindkey '^[^M'  autosuggest-execute
 bindkey '^[^J' autosuggest-execute
+
+# make terminal command navigation sane again
+bindkey "^[[1;5C" forward-word                      # [Ctrl-right] - forward one word
+bindkey "^[[1;5D" backward-word                     # [Ctrl-left] - backward one word
+bindkey '^[^[[C' forward-word                       # [Ctrl-right] - forward one word
+bindkey '^[^[[D' backward-word                      # [Ctrl-left] - backward one word
+bindkey '^[[1;3D' beginning-of-line                 # [Alt-left] - beginning of line
+bindkey '^[[1;3C' end-of-line                       # [Alt-right] - end of line
+bindkey '^[[5D' beginning-of-line                   # [Alt-left] - beginning of line
+bindkey '^[[5C' end-of-line                         # [Alt-right] - end of line
+bindkey '^?' backward-delete-char                   # [Backspace] - delete backward
+if [[ "${terminfo[kdch1]}" != "" ]]; then
+    bindkey "${terminfo[kdch1]}" delete-char        # [Delete] - delete forward
+else
+    bindkey "^[[3~" delete-char                     # [Delete] - delete forward
+    bindkey "^[3;5~" delete-char
+    bindkey "\e[3~" delete-char
+fi
+bindkey "^A" vi-beginning-of-line
+bindkey -M viins "^F" vi-forward-word               # [Ctrl-f] - move to next word
+bindkey -M viins "^E" vi-add-eol                    # [Ctrl-e] - move to end of line
+bindkey "^J" history-beginning-search-forward
+bindkey "^K" history-beginning-search-backward
+
   
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
