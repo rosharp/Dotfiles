@@ -1,0 +1,65 @@
+{
+  "alfredtheme" : {
+    "result" : {
+      "textSpacing" : 9,
+      "subtext" : {
+        "size" : 11,
+        "colorSelected" : "#FFFFFFCB",
+        "font" : "System",
+        "color" : "#FFFFFF7E"
+      },
+      "shortcut" : {
+        "size" : 16,
+        "colorSelected" : "#FFFFFFFF",
+        "font" : "System",
+        "color" : "#FFFFFF7E"
+      },
+      "backgroundSelected" : "#9D0050FF",
+      "text" : {
+        "size" : 17,
+        "colorSelected" : "#FFFFFFFF",
+        "font" : "System",
+        "color" : "#FFFFFFCB"
+      },
+      "iconPaddingHorizontal" : 12,
+      "roundness" : 8,
+      "paddingVertical" : 10,
+      "iconSize" : 33
+    },
+    "search" : {
+      "backgroundSelected" : "#358188FF",
+      "paddingHorizontal" : 0,
+      "spacing" : 9,
+      "text" : {
+        "size" : 40,
+        "colorSelected" : "#FFFFFFFF",
+        "font" : "Helvetica Neue",
+        "color" : "#FFFFFFFF"
+      },
+      "background" : "#00000000",
+      "roundness" : 8,
+      "paddingVertical" : 0
+    },
+    "window" : {
+      "color" : "#00000066",
+      "paddingHorizontal" : 16,
+      "width" : 700,
+      "borderPadding" : 0,
+      "borderColor" : "#0000007F",
+      "blur" : 0,
+      "roundness" : 15,
+      "paddingVertical" : 16
+    },
+    "credit" : "Allfried",
+    "visualEffectMode" : 2,
+    "separator" : {
+      "color" : "#FFFFFF0A",
+      "thickness" : 1
+    },
+    "scrollbar" : {
+      "color" : "#358188FF",
+      "thickness" : 0
+    },
+    "name" : "The best theme of 2021"
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "alfredtheme" : {
+    "result" : {
+      "textSpacing" : 5,
+      "subtext" : {
+        "size" : 12,
+        "colorSelected" : "#2053ECFF",
+        "font" : "System",
+        "color" : "#1B5BFFFF"
+      },
+      "shortcut" : {
+        "size" : 16,
+        "colorSelected" : "#FFFFFFFF",
+        "font" : "System",
+        "color" : "#413576FF"
+      },
+      "backgroundSelected" : "#151515FF",
+      "text" : {
+        "size" : 20,
+        "colorSelected" : "#D9DA14FF",
+        "font" : "System",
+        "color" : "#7B62E8FF"
+      },
+      "iconPaddingHorizontal" : 4,
+      "roundness" : 0,
+      "paddingVertical" : 6,
+      "iconSize" : 40
+    },
+    "search" : {
+      "backgroundSelected" : "#141514FF",
+      "paddingHorizontal" : 8,
+      "spacing" : 8,
+      "text" : {
+        "size" : 35,
+        "colorSelected" : "#7A62E8FF",
+        "font" : "System Light",
+        "color" : "#FEFE04FF"
+      },
+      "background" : "#202120FF",
+      "roundness" : 0,
+      "paddingVertical" : 7
+    },
+    "window" : {
+      "color" : "#202120FF",
+      "paddingHorizontal" : 4,
+      "width" : 559,
+      "borderPadding" : 4,
+      "borderColor" : "#0000007F",
+      "blur" : 15,
+      "roundness" : 1,
+      "paddingVertical" : 6
+    },
+    "credit" : "Ro Sharp",
+    "separator" : {
+      "color" : "#CBCBCBF3",
+      "thickness" : 0
+    },
+    "scrollbar" : {
+      "color" : "#463A71FF",
+      "thickness" : 2
+    },
+    "name" : "Nightrunner"
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "alfredtheme" : {
+    "result" : {
+      "textSpacing" : 6,
+      "subtext" : {
+        "size" : 12,
+        "colorSelected" : "#FFFFFFCB",
+        "font" : "System",
+        "color" : "#00000073"
+      },
+      "shortcut" : {
+        "size" : 16,
+        "colorSelected" : "#FFFFFFFF",
+        "font" : "System",
+        "color" : "#0000008B"
+      },
+      "backgroundSelected" : "#358188FF",
+      "text" : {
+        "size" : 18,
+        "colorSelected" : "#FFFFFFFF",
+        "font" : "System",
+        "color" : "#000000CB"
+      },
+      "iconPaddingHorizontal" : 4,
+      "roundness" : 8,
+      "paddingVertical" : 3,
+      "iconSize" : 40
+    },
+    "search" : {
+      "backgroundSelected" : "#358188FF",
+      "paddingHorizontal" : 8,
+      "spacing" : 8,
+      "text" : {
+        "size" : 34,
+        "colorSelected" : "#FFFFFFFF",
+        "font" : "System Light",
+        "color" : "#000000FF"
+      },
+      "background" : "#0000001F",
+      "roundness" : 8,
+      "paddingVertical" : 5
+    },
+    "window" : {
+      "color" : "#FFFFFF4E",
+      "paddingHorizontal" : 9,
+      "width" : 700,
+      "borderPadding" : 0,
+      "borderColor" : "#0000007F",
+      "blur" : 21,
+      "roundness" : 15,
+      "paddingVertical" : 8
+    },
+    "credit" : "Alfred",
+    "separator" : {
+      "color" : "#CBCBCBF3",
+      "thickness" : 0
+    },
+    "scrollbar" : {
+      "color" : "#358188FF",
+      "thickness" : 2
+    },
+    "name" : "Experimental Big Sur Light"
+  }
+}

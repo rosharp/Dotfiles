@@ -1,0 +1,64 @@
+{
+  "alfredtheme" : {
+    "result" : {
+      "textSpacing" : 8,
+      "subtext" : {
+        "size" : 15,
+        "colorSelected" : "#536471FF",
+        "font" : "Chirp Light",
+        "color" : "#536471FF"
+      },
+      "shortcut" : {
+        "size" : 14,
+        "colorSelected" : "#000000FF",
+        "font" : "Chirp Light",
+        "color" : "#F45D22FF"
+      },
+      "backgroundSelected" : "#EEF1F1FF",
+      "text" : {
+        "size" : 15,
+        "colorSelected" : "#0F1419FF",
+        "font" : "Chirp Bold",
+        "color" : "#000000FF"
+      },
+      "iconPaddingHorizontal" : 12,
+      "roundness" : 0,
+      "paddingVertical" : 12,
+      "iconSize" : 54
+    },
+    "search" : {
+      "backgroundSelected" : "#ABCCF3FF",
+      "paddingHorizontal" : 8,
+      "spacing" : 10,
+      "text" : {
+        "size" : 18,
+        "colorSelected" : "#050605FF",
+        "font" : "Chirp Light",
+        "color" : "#000000FF"
+      },
+      "background" : "#FEFFFE00",
+      "roundness" : 0,
+      "paddingVertical" : 5
+    },
+    "window" : {
+      "color" : "#FFFFFFFF",
+      "paddingHorizontal" : 0,
+      "width" : 502,
+      "borderPadding" : 0,
+      "borderColor" : "#FFFFFFFF",
+      "blur" : 0,
+      "roundness" : 8,
+      "paddingVertical" : 13
+    },
+    "credit" : "Chris Messina",
+    "separator" : {
+      "color" : "#CBCBCBF3",
+      "thickness" : 0
+    },
+    "scrollbar" : {
+      "color" : "#4C4D4CB1",
+      "thickness" : 7
+    },
+    "name" : "Chirp (Default) 🔥"
+  }
+}

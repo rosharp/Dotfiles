@@ -1,0 +1,236 @@
+##!/usr/bin/env sh
+#
+## the scripting-addition must be loaded manually if
+## you are running yabai on macOS Big Sur. Uncomment
+## the following line to have the injection performed
+## when the config is executed during startup.
+##
+## for this to work you must configure sudo such that
+## it will be able to run the command without password
+##
+## see this wiki page for information:
+##  - https://github.com/koekeishiya/yabai/wiki/Installing-yabai-(latest-release)
+##
+#sudo yabai --load-sa
+#yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+#
+## Kickstart
+#ctrl + alt + cmd - r : launchctl kickstart -k "gui/${UID}/homebrew.mxcl.yabai"
+#
+#
+## bar settings
+#yabai -m config status_bar                   off
+#yabai -m config status_bar_text_font         "Helvetica Neue:Bold:12.0"
+#yabai -m config status_bar_icon_font         "FontAwesome:Regular:12.0"
+#yabai -m config status_bar_background_color  0xff202020
+#yabai -m config status_bar_foreground_color  0xffa8a8a8
+#yabai -m config status_bar_space_icon_strip  I II III IV V VI VII VIII IX X
+#yabai -m config status_bar_power_icon_strip   
+#yabai -m config status_bar_space_icon        
+#yabai -m config status_bar_clock_icon        
+#
+## global settings
+#yabai -m config mouse_follows_focus          off
+#yabai -m config focus_follows_mouse          off
+#yabai -m config window_placement             second_child
+#yabai -m config window_opacity               off
+#yabai -m config window_opacity_duration      0.0
+#yabai -m config window_shadow                float
+#yabai -m config window_border                off
+#yabai -m config window_border_placement      inset
+#yabai -m config window_border_width          4
+#yabai -m config window_border_radius         -1.0
+#yabai -m config active_window_border_topmost off
+#yabai -m config active_window_border_color   0xff775759
+#yabai -m config normal_window_border_color   0xff505050
+#yabai -m config insert_window_border_color   0xffd75f5f
+#yabai -m config active_window_opacity        1.0
+#yabai -m config normal_window_opacity        1.0
+#yabai -m config split_ratio                  0.50
+#yabai -m config auto_balance                 off
+#yabai -m config focus_follows_mouse          off
+#yabai -m config mouse_follows_focus          off
+#yabai -m config mouse_modifier               ctrl
+#yabai -m config mouse_action1                move
+#yabai -m config mouse_action2                resize
+#yabai -m config window_topmost               off
+#
+## global settings
+##yabai -m config mouse_follows_focus          on
+##yabai -m config focus_follows_mouse          off
+##yabai -m config window_placement             second_child
+##yabai -m config window_topmost               off
+##yabai -m config window_shadow                on
+##yabai -m config window_opacity               on
+##yabai -m config window_opacity_duration      1.0
+##yabai -m config active_window_opacity        1.0
+##yabai -m config normal_window_opacity        0.85
+##yabai -m config window_border                off
+##yabai -m config window_border_width          6
+##yabai -m config active_window_border_color   0xff775759
+##yabai -m config normal_window_border_color   0xff555555
+##yabai -m config insert_feedback_color        0xffd75f5f
+##yabai -m config split_ratio                  0.50
+##yabai -m config auto_balance                 off
+##yabai -m config mouse_modifier               ctrl
+##yabai -m config mouse_action1                move
+##yabai -m config mouse_action2                resize
+##yabai -m config mouse_drop_action            swap
+#
+#
+## general space settings
+#yabai -m config layout                       bsp
+#yabai -m config top_padding                  12
+#yabai -m config bottom_padding               12
+#yabai -m config left_padding                 12
+#yabai -m config right_padding                12
+#yabai -m config window_gap                   06
+#
+## #Ubersicht widget bar stuff
+##yabai -m signal --add event=space_changed \
+##action="osascript -e 'tell application \"Übersicht\" to refresh widget id \"nibar-spaces-primary-jsx\"'"
+##yabai -m signal --add event=display_changed \
+##action="osascript -e 'tell application \"Übersicht\" to refresh widget id \"nibar-spaces-primary-jsx\"'"
+#
+##yabai -m signal --add event=space_changed \
+##action="osascript -e 'tell application \"Übersicht\" to refresh widget id \"nibar-spaces-secondary-jsx\"'"
+##yabai -m signal --add event=display_changed \
+##action="osascript -e 'tell application \"Übersicht\" to refresh widget id \"nibar-spaces-secondary-jsx\"'"
+#
+## signals
+## yabai -m signal --add event=window_destroyed action="yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse"
+##yabai -m signal --add event=space_changed action="yabai -m window --focus $(yabai -m query --windows --window | jq ".id")"
+## yabai -m signal --add event=application_terminated action="yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse"
+#
+##testing signals
+## yabai -m signal --add event=window_destroyed action="terminal-notifier -message 'window_destroyed'"
+## yabai -m signal --add event=application_terminated action="terminal-notifier -message 'application_terminated'"
+#
+#echo "yabai configuration loaded.." 
+#
+
+!/usr/bin/env zsh
+sudo yabai --load-sa
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+
+alias yc='yabai -m config'
+alias yr='yabai -m rule --add'
+
+# global settings
+yabai -m config mouse_follows_focus          off
+yabai -m config focus_follows_mouse          off
+yabai -m config window_placement             second_child
+yabai -m config window_topmost               off
+yabai -m config window_shadow                off
+yabai -m config window_opacity               on
+ yabai -m config window_opacity_duration      0.0
+ yabai -m config active_window_opacity        1.0
+yabai -m config active_window_opacity        1.0
+# yabai -m config normal_window_opacity        0.90
+yabai -m config normal_window_opacity        0.90
+ yabai -m config normal_window_opacity        1
+ yabai -m config window_border                on
+yabai -m config window_border                off
+ yabai -m config window_border_width          6
+yabai -m config window_border_width          3
+ yabai -m config active_window_border_color   0xff9d0006
+
+# yabai -m config active_window_border_color   0xfffb4934 # bright red
+# yabai -m config active_window_border_color   0xffcc241d # neutral red
+yabai -m config active_window_border_color   0xffa89984 # neutral red
+
+# yabai -m config active_window_border_color   0xff9d0006 # faded red
+# yabai -m config active_window_border_color   0xff775759 # default
+yabai -m config normal_window_border_color   0xff555555
+yabai -m config insert_feedback_color        0xffd75f5f
+yabai -m config split_ratio                  0.50
+yabai -m config auto_balance                 off
+yabai -m config mouse_modifier               fn
+yabai -m config mouse_action1                move
+yabai -m config mouse_action2                resize
+
+# general space settings
+yabai -m config layout                       bsp
+yabai -m config top_padding                  4
+yabai -m config bottom_padding               20
+yabai -m config left_padding                 5
+yabai -m config right_padding                5
+yabai -m config window_gap                   5
+
+## Space labels
+#yabai -m space 2 --label "Terminal"
+#yabai -m space 3 --label "Browser"
+#yabai -m space 4 --label "Editor"
+#yabai -m space 8 --label "Comms"
+#yabai -m space 8 --label "Chat"
+#
+## Primary
+#yabai -m rule --add app="Brave Browser"         space=1
+#yabai -m rule --add app="kitty"                 space=2
+#yabai -m rule --add app="Obsidian"              space=1
+#yabai -m rule --add app="zoom"                  space=5
+#yabai -m rule --add app="Anki"                  space=10
+#
+## Communication
+#yabai -m rule --add app="Microsoft Teams"       space=9
+#yabai -m rule --add app="Calendar"              space=8
+#yabai -m rule --add app="Mail"                  space=8
+
+# yabai rules
+yr title='^Preferences' manage=off layer=above
+yr title='^(Opening)' manage=off layer=above
+yr title='Library' manage=off layer=above
+yr app='App Store' manage=off layer=above
+
+#yr app='Firefox' space=1
+#yr app='Safari' space=1
+#yr app='Discord' space=5
+#yr app='Spotify' space=6
+
+# yabai signals
+# float system preferences. Most of these just diable Yabai form resizing them.
+yabai -m rule --add app="^System Preferences$" sticky=on layer=above manage=off
+yabai -m rule --add app="^Keychain Access$" sticky=on layer=above manage=off
+yabai -m rule --add app="^Finder$" sticky=on layer=above manage=off
+yabai -m rule --add app="^Alfred Preferences$" sticky=on layer=above manage=off
+yabai -m rule --add app="^Disk Utility$" sticky=on layer=above manage=off
+yabai -m rule --add app="^System Information$" sticky=on layer=above manage=off
+yabai -m rule --add app="^Activity Monitor$" sticky=on layer=above manage=off
+yabai -m rule --add app="^Path Finder$" manage=off
+yabai -m rule --add app="^Spotify$" manage=off
+yabai -m rule --add app="^Time Out$" manage=off
+yabai -m rule --add app="^perl_client_app$" manage=off
+yabai -m rule --add app="^console$" manage=off
+yabai -m rule --add app="^Private Internet Access$" manage=off
+yabai -m rule --add app="^Notes$" sticky=on layer=above manage=off
+yabai -m rule --add app="^Reminders$" manage=off
+yabai -m rule --add app="^Telegram$" manage=off
+yabai -m rule --add app="^Stats$" manage=off
+yabai -m rule --add app="^VLC$" manage=off
+
+yabai -m signal --add event=window_destroyed action="yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse"
+yabai -m signal --add event=application_terminated action="yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse"
+yabai -m signal --add event=space_changed action="landscape"
+yabai -m rule --add title="Microsoft Teams Notification" window_border=off
+yabai -m rule --add title="Microsoft Teams Notification" manage=off
+
+
+# set focus follows mouse mode (default: off, options: off, autoraise, autofocus)
+yabai -m config focus_follows_mouse autoraise
+
+# set mouse interaction modifier key (default: fn)
+yabai -m config mouse_modifier ctrl 
+
+# set modifier + left-click drag to resize window (default: move)
+yabai -m config mouse_action1 move
+
+# set modifier + right-click drag to resize window (default: resize)
+yabai -m config mouse_action2 resize
+
+# set mouse follows focus mode (default: off)
+yabai -m config mouse_follows_focus on
+
+# yabai -m config external_bar all:26:0
+echo "yabai configuration loaded.."
+
+
