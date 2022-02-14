@@ -1,0 +1,139 @@
+[
+  {
+    "title": "Main",
+    "links": [
+      {
+        "label": "Udemy",
+        "value": "https://www.udemy.com/home/my-courses/learning/"
+      },
+      {
+        "label": "r/unixporn",
+        "value": "https://www.reddit.com/r/unixporn/"
+      },
+      {
+        "label": "Github",
+        "value": "https://github.com/rosharp?tab=repositories"
+      },
+      {
+        "label": "Youtube",
+        "value": "https://www.youtube.com/"
+      }
+    ]
+  },
+  {
+    "title": "Code",
+    "links": [
+      {
+        "label": "JS Reference",
+        "value": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference"
+      },
+      {
+        "label": "CSS Reference",
+        "value": "https://developer.mozilla.org/en-US/docs/Web/CSS/Reference"
+      },
+      {
+        "label": "React",
+        "value": "https://reactjs.org/docs/getting-started.html"
+      },
+      {
+        "label": "Chart JS",
+        "value": "https://www.chartjs.org/docs/latest/"
+      },
+      {
+        "label": "NPM",
+        "alue": "https://www.npmjs.com/"
+      },
+      {
+        "label": "CodeSandbox",
+        "value": "https://codesandbox.io/dashboard/home?workspace=074be1fe-4e59-44e4-978c-7d8074023af8"
+      },
+      {
+        "label": "100 Days CSS Challenge",
+        "value": "https://100dayscss.com/"
+      },
+      {
+        "label": "React tutorial",
+        "value": "https://reactjs.org/tutorial/tutorial.html"
+      },
+      {
+        "label": "A re-introduction to JS",
+        "value": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript"
+      }
+    ]
+  },
+  {
+    "title": "Design",
+    "links": [
+      {
+        "label": "Material Colors",
+        "value": "https://materialuicolors.co/"
+      },
+      {
+        "label": "Picture Color Picker",
+        "value": "https://imagecolorpicker.com/"
+      },
+      {
+        "label": "Encycolorpedia",
+        "value": "https://encycolorpedia.com/"
+      },
+      {
+        "label": "Colorhunt",
+        "value": "https://colorhunt.co/"
+      },
+      {
+        "label": "Flat UI Colors",
+        "value": "https://flatuicolors.com/"
+      }
+    ]
+  },
+  {
+    "title": "日本語",
+    "links": [
+      {
+        "label": "2ch",
+        "value": "http://2ch.sc/2ch.html"
+      },
+      {
+        "label": "Jardic",
+        "value": "http://jardic.ru/index_e.htm"
+      },
+      {
+        "label": "Jisho",
+        "value": "https://jisho.org/"
+      },
+      {
+        "label": "Yahoo JP",
+        "value": "https://www.yahoo.co.jp/"
+      }
+    ]
+  },
+  {
+    "title": "Sauce",
+    "links": [
+      {
+        "label": "Pictures - DeathAndMilk",
+        "value": "https://www.instagram.com/deathandmilk_/"
+      },
+      {
+        "label": "Icons - FontAwesome",
+        "value": "https://fontawesome.com/icons"
+      },
+      {
+        "label": "Text Flicker - CodeMyUI",
+        "value": "https://codemyui.com/crt-screen-text-flicker-animation-in-pure-css/"
+      },
+      {
+        "label": "Wave Animation - mburakerman",
+        "value": "https://codepen.io/mburakerman/pen/eRZZEv"
+      },
+      {
+        "label": "Da real sauce ԅ(♡﹃♡ԅ)",
+        "value": "https://www.youtube.com/watch?v=qr89xoZyE1g"
+      },
+      {
+        "label": "Even more real sauce ( ͡° ͜ʖ ͡°)",
+        "value": "https://www.youtube.com/watch?v=VLhJOd_TFiI"
+      }
+    ]
+  }
+]
