@@ -1,0 +1,64 @@
+{
+  "alfredtheme" : {
+    "result" : {
+      "textSpacing" : 8,
+      "subtext" : {
+        "size" : 13,
+        "colorSelected" : "#8899A6FF",
+        "font" : "Chirp Light",
+        "color" : "#8899A6FF"
+      },
+      "shortcut" : {
+        "size" : 14,
+        "colorSelected" : "#D9DFEDFF",
+        "font" : "Chirp Light",
+        "color" : "#E8A1AEFF"
+      },
+      "backgroundSelected" : "#534E7460",
+      "text" : {
+        "size" : 16,
+        "colorSelected" : "#E7EEFFFF",
+        "font" : "Chirp Bold",
+        "color" : "#D9DFEDFF"
+      },
+      "iconPaddingHorizontal" : 12,
+      "roundness" : 0,
+      "paddingVertical" : 12,
+      "iconSize" : 44
+    },
+    "search" : {
+      "backgroundSelected" : "#567FA9CA",
+      "paddingHorizontal" : 8,
+      "spacing" : 9,
+      "text" : {
+        "size" : 30,
+        "colorSelected" : "#FFFFFFFF",
+        "font" : "Chirp Light",
+        "color" : "#D9DFEDFF"
+      },
+      "background" : "#19182500",
+      "roundness" : 0,
+      "paddingVertical" : 5
+    },
+    "window" : {
+      "color" : "#191825D8",
+      "paddingHorizontal" : 0,
+      "width" : 502,
+      "borderPadding" : 0,
+      "borderColor" : "#0000007F",
+      "blur" : 10,
+      "roundness" : 10,
+      "paddingVertical" : 13
+    },
+    "credit" : "Ro Sharp",
+    "separator" : {
+      "color" : "#CBCBCBF3",
+      "thickness" : 0
+    },
+    "scrollbar" : {
+      "color" : "#D9DFEDFF",
+      "thickness" : 7
+    },
+    "name" : "Catppuccin Maroon Transparent"
+  }
+}

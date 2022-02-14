@@ -3,7 +3,7 @@
 "██████╔╝██║░░██║  ╚█████╗░███████║███████║██████╔╝██████╔╝
 "██╔══██╗██║░░██║  ░╚═══██╗██╔══██║██╔══██║██╔══██╗██╔═══╝░
 "██║░░██║╚█████╔╝  ██████╔╝██║░░██║██║░░██║██║░░██║██║░░░░░
-"╚═╝░░╚═╝░╚════╝░  ╚═════╝░╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░░░░
+"╚═╝░░╚═╝░╚════╝░  ╚═════╝░╚═╝░░╚═╝╚═╝░░╚═╝╚═░░╚═╝╚═╝░░░░░
 
 "█▄░█ █░█ █ █▀▄▀█   █▀▀ █▀█ █▄░█ █░█ █ █▀▀ █░█ █▀█ ▄▀█ ▀█▀ █ █▀█ █▄░█
 "█░▀█ ▀▄▀ █ █░▀░█   █▄▄ █▄█ █░▀█ ▀▄▀ █ █▄█ █▄█ █▀▄ █▀█ ░█░ █ █▄█ █░▀█
@@ -15,6 +15,8 @@ augroup filetype_vim
     autocmd!
     autocmd FileType vim setlocal foldmethod=marker
 augroup END
+
+let mapleader = "\<Space>"
 
 " open new split panes to right and below
 set splitright
@@ -30,6 +32,7 @@ let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 set nocompatible
 filetype plugin on
 syntax on
+syntax enable
 
 " Rellative line numbers
 set rnu
@@ -57,6 +60,44 @@ runtime! macros/matchit.vim
 
 " }}}
 
+" COMPLETION ---------------------------------------------------------------- {{{
+
+
+" .gitignore skeleton
+autocmd BufNewFile .gitignore 0r ~/.vim/templates/.gitignore
+" Skeletons
+autocmd BufNewFile *.html 0r ~/.vim/templates/html.skel
+autocmd BufNewFile *.ejs 0r ~/.vim/templates/ejs.skel
+
+" HTML completion
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+autocmd FileType xml,html inoremap </ </<C-x><C-o>
+nnoremap ,html :-1read $HOME/.vim/.skeleton.html<CR>3jwf>a
+set makeprg=bundle\ exec\ rspec\ -f\ QuickfixFormatter
+
+" JS autocompletion
+set omnifunc=syntaxcomplete#Complete
+autocmd BufNewFile *.js 0r ~/.vim/templates/js.skel
+" JS Beautify
+autocmd FileType javascript noremap <buffer>  <c-p> :call JsBeautify()<cr>
+" for json
+autocmd FileType json noremap <buffer> <c-]> :call JsonBeautify()<cr>
+" for jsx
+autocmd FileType jsx noremap <buffer> <c-]> :call JsxBeautify()<cr>
+" for html
+autocmd FileType html noremap <buffer> <c-]> :call HtmlBeautify()<cr>
+" for css or scss
+autocmd FileType css noremap <buffer> <c-]> :call CSSBeautify()<cr>
+autocmd FileType javascript vnoremap <buffer>  <c-p> :call RangeJsBeautify()<cr>
+autocmd FileType json vnoremap <buffer> <c-]> :call RangeJsonBeautify()<cr>
+autocmd FileType jsx vnoremap <buffer> <c-]> :call RangeJsxBeautify()<cr>
+autocmd FileType html vnoremap <buffer> <c-]> :call RangeHtmlBeautify()<cr>
+autocmd FileType css vnoremap <buffer> <c-]> :call RangeCSSBeautify()<cr>
+
+" Coc
+let g:coc_global_extensions = ['coc-emmet', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-tsserver', 'coc-sh', 'coc-markdownlint']
+" }}}
+
 " PLUGINS --------------------------------------------------------------- {{{
 
 call plug#begin("~/.vim/plugged")
@@ -68,8 +109,9 @@ Plug 'arcticicestudio/nord-vim'
 "Plug 'romgrk/doom-one.vim'
 "let g:doom_one_terminal_colors = v:true
 "Plug 'jacoborus/tender.vim'
-"Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
-"Plug 'catppuccin/nvim', {'as': 'catppuccin'}
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+Plug 'ghifarit53/tokyonight-vim'
+Plug 'catppuccin/nvim', {'as': 'catppuccin'}
 "Plug 'ayu-theme/ayu-vim'
 "Plug 'whatyouhide/vim-gotham'
 "Plug 'bluz71/vim-moonfly-colors'
@@ -103,9 +145,9 @@ let g:indentLine_color_term = 239
 let g:indentLine_char_list = ['┊']
 
 " Dashboard
-Plug 'liuchengxu/vim-clap'
-Plug 'glepnir/dashboard-nvim'
-Plug 'altercation/vim-colors-solarized'
+"Plug 'liuchengxu/vim-clap'
+"Plug 'glepnir/dashboard-nvim'
+"Plug 'altercation/vim-colors-solarized'
 
 " Finder
 Plug 'nvim-lua/plenary.nvim'
@@ -199,6 +241,7 @@ endif
 " SETTINGS ---------------------------------------------------------------- {{{
 
 " NERD ---------------------------------------------------------------- {{{
+
 " NERD Tree Settings
 nnoremap <C-t> :NERDTreeToggle<CR>
 
@@ -241,7 +284,7 @@ nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
-nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+nnoremap <leader>fh <cmd>lua require('telescope.builtin').oldfiles()<cr>
 
 " }}}
 
@@ -254,7 +297,6 @@ if exists('$TMUX')
 else  
   let &t_SI = "\<Esc>]50;CursorShape=1\x7"  
   let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-endif
   
   "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
   "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
@@ -264,8 +306,10 @@ endif
   endif
 endif
 
+if (has("termguicolors"))
 set t_8b=^[[48;2;%lu;%lu;%lum
 set t_8f=^[[38;2;%lu;%lu;%lum
+endif
 
 " True color support
 "Credit joshdick
@@ -293,35 +337,17 @@ let g:vimwiki_list = [{'path': '~/vimwiki/',
 
 " Dashboard ---------------------------------------------------------------- {{{
 
-let g:mapleader="<\Space>"
 let g:dashboard_default_executive ='telescope'
-nmap <Leader>ss :<C-u>SessionSave<CR>
-nmap <Leader>sl :<C-u>SessionLoad<CR>
-nnoremap <silent> <Leader>fh :DashboardFindHistory<CR>
-nnoremap <silent> <Leader>ff :DashboardFindFile<CR>
-nnoremap <silent> <Leader>tc :DashboardChangeColorscheme<CR>
-nnoremap <silent> <Leader>fa :DashboardFindWord<CR>
-nnoremap <silent> <Leader>fb :DashboardJumpMark<CR>
-nnoremap <silent> <Leader>cn :DashboardNewFile<CR>
-let g:dashboard_custom_shortcut_icon['last_session'] = ' '
-let g:dashboard_custom_shortcut_icon['find_history'] = 'ﭯ '
-let g:dashboard_custom_shortcut_icon['find_file'] = ' '
-let g:dashboard_custom_shortcut_icon['new_file'] = ' '
-let g:dashboard_custom_shortcut_icon['change_colorscheme'] = ' '
-let g:dashboard_custom_shortcut_icon['find_word'] = ' '
-let g:dashboard_custom_shortcut_icon['book_marks'] = ' '
-let g:dashboard_custom_shortcut={
-\ 'last_session'       : 'SPC s l',
-\ 'find_history'       : 'SPC f h',
-\ 'find_file'          : 'SPC f f',
-\ 'new_file'           : 'SPC c n',
-\ 'change_colorscheme' : 'SPC t c',
-\ 'find_word'          : 'SPC f a',
-\ 'book_marks'         : 'SPC f b',
-\ }
-" Disable tabline
-autocmd FileType dashboard set showtabline=0 | autocmd WinLeave <buffer> set showtabline=2
     
+let g:dashboard_custom_header = [
+\ ' ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗',
+\ ' ████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║',
+\ ' ██╔██╗ ██║ █████╗  ██║   ██║ ██║   ██║ ██║ ██╔████╔██║',
+\ ' ██║╚██╗██║ ██╔══╝  ██║   ██║ ╚██╗ ██╔╝ ██║ ██║╚██╔╝██║',
+\ ' ██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║',
+\ ' ╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝',
+\]
+
 " }}}
 
 " Markdown Preview ---------------------------------------------------------------- {{{
@@ -439,15 +465,86 @@ nnoremap <c-n> :call OpenTerminal()<CR>
 
 " }}}
 
+" MAPPINGS ---------------------------------------------------------------- {{{
+
+" turn terminal to normal mode with escape
+" tnoremap <Esc> <C-\><C-n>
+
+" use alt+hjkl to move between split/vsplit panels
+tnoremap <A-h> <C-\><C-n><C-w>h
+tnoremap <A-j> <C-\><C-n><C-w>j
+tnoremap <A-k> <C-\><C-n><C-w>k
+tnoremap <A-l> <C-\><C-n><C-w>l
+nnoremap <A-h> <C-w>h
+nnoremap <A-j> <C-w>j
+nnoremap <A-k> <C-w>k
+nnoremap <A-l> <C-w>l
+
+" coc bindings ---------------------------------------------------------------- {{{
+
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gr <Plug>(coc-references)
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+" Open diagnostics
+nnoremap <silent> <space>d :<C-u>CocList diagnostics<cr>
+nnoremap <silent> <space>s :<C-u>CocList -I symbols<cr>
+
+
+" }}}
+
+" }}}
+
+" SYNTAX ---------------------------------------------------------------- {{{
+
+" coc
+" Show errors on hover
+nnoremap <silent> K :call CocAction('doHover')<CR>
+" When cursoring over a word, see either the diagnostic if it exists, otherwise the documentation
+function! ShowDocIfNoDiagnostic(timer_id)
+  if (coc#float#has_float() == 0 && CocHasProvider('hover') == 1)
+    silent call CocActionAsync('doHover')
+  endif
+endfunction
+
+function! s:show_hover_doc()
+  call timer_start(500, 'ShowDocIfNoDiagnostic')
+endfunction
+
+autocmd CursorHoldI * :call <SID>show_hover_doc()
+autocmd CursorHold * :call <SID>show_hover_doc()
+
+
+" jQuery
+au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
+
+" CSS settings
+set foldmethod=syntax "syntax highlighting items specify folds
+set foldcolumn=1 "defines 1 col at window left, to indicate folding
+let javaScript_fold=1 "activate folding by JS syntax
+set foldlevelstart=99 "start file with all folds opened
+
+" Commentary
+autocmd FileType apache setlocal commentstring=#\ %s
+
+" Emmet
+let g:user_emmet_install_global = 0
+autocmd FileType html,css EmmetInstall
+let g:user_emmet_leader_key=','
+endif
+" }}}
+
 " THEME ---------------------------------------------------------------- {{{
 
-let g:airline_theme='base16_nord'
+let g:airline_theme='tokyonight'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
-nnoremap <silent> <C-2> :bprevious<CR>
-nnoremap <silent> <C-3> :bnext<CR>
-nnoremap <silent> <C-1> :bfirst<CR>
-nnoremap <silent> <C-4> :blast CR>
+nnoremap <silent> <C-[> :bprevious<CR>
+nnoremap <silent> <C-]> :bnext<CR>
+nnoremap <silent> <C-;> :bfirst<CR>
+nnoremap <silent> <C-'> :blast<CR>
+nnoremap <silent> <C-.> :badd
  
 " Tokyo 
 let g:tokyonight_style = "night"
@@ -461,7 +558,7 @@ let g:tokyonight_colors = {
 \ }
 
 " Load the colorscheme
-colorscheme nord
+colorscheme catppuccin 
 
 "" Lightline
 "let g:lightline = {
@@ -483,78 +580,3 @@ colorscheme nord
 
 " }}} 
 
-" COMPLETION ---------------------------------------------------------------- {{{
-
-" JS autocompletion
-set omnifunc=syntaxcomplete#Complete
-autocmd BufNewFile *.js 0r ~/.vim/templates/js.skel
-
-" .gitignore skeleton
-autocmd BufNewFile .gitignore 0r ~/.vim/templates/.gitignore
-" Skeletons
-autocmd BufNewFile *.html 0r ~/.vim/templates/html.skel
-autocmd BufNewFile *.ejs 0r ~/.vim/templates/ejs.skel
-
-" HTML completion
-autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-autocmd FileType xml,html inoremap </ </<C-x><C-o>
-nnoremap ,html :-1read $HOME/.vim/.skeleton.html<CR>3jwf>a
-set makeprg=bundle\ exec\ rspec\ -f\ QuickfixFormatter
-
-" JS Beautify
-autocmd FileType javascript noremap <buffer>  <c-p> :call JsBeautify()<cr>
-" for json
-autocmd FileType json noremap <buffer> <c-]> :call JsonBeautify()<cr>
-" for jsx
-autocmd FileType jsx noremap <buffer> <c-]> :call JsxBeautify()<cr>
-" for html
-autocmd FileType html noremap <buffer> <c-]> :call HtmlBeautify()<cr>
-" for css or scss
-autocmd FileType css noremap <buffer> <c-]> :call CSSBeautify()<cr>
-autocmd FileType javascript vnoremap <buffer>  <c-p> :call RangeJsBeautify()<cr>
-autocmd FileType json vnoremap <buffer> <c-]> :call RangeJsonBeautify()<cr>
-autocmd FileType jsx vnoremap <buffer> <c-]> :call RangeJsxBeautify()<cr>
-autocmd FileType html vnoremap <buffer> <c-]> :call RangeHtmlBeautify()<cr>
-autocmd FileType css vnoremap <buffer> <c-]> :call RangeCSSBeautify()<cr>
-
-" Coc
-let g:coc_global_extensions = ['coc-emmet', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-tsserver', 'coc-sh', 'coc-markdownlint']
-" }}}
-
-" MAPPINGS ---------------------------------------------------------------- {{{
-
-" turn terminal to normal mode with escape
-tnoremap <Esc> <C-\><C-n>
-
-" use alt+hjkl to move between split/vsplit panels
-tnoremap <A-h> <C-\><C-n><C-w>h
-tnoremap <A-j> <C-\><C-n><C-w>j
-tnoremap <A-k> <C-\><C-n><C-w>k
-tnoremap <A-l> <C-\><C-n><C-w>l
-nnoremap <A-h> <C-w>h
-nnoremap <A-j> <C-w>j
-nnoremap <A-k> <C-w>k
-nnoremap <A-l> <C-w>l
-
-" }}}
-
-" SYNTAX ---------------------------------------------------------------- {{{
-
-"jQuery
-au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
-
-" CSS settings
-set foldmethod=syntax "syntax highlighting items specify folds
-set foldcolumn=1 "defines 1 col at window left, to indicate folding
-let javaScript_fold=1 "activate folding by JS syntax
-set foldlevelstart=99 "start file with all folds opened
-
-" Commentary
-autocmd FileType apache setlocal commentstring=#\ %s
-
-" Emmet
-let g:user_emmet_install_global = 0
-autocmd FileType html,css EmmetInstall
-let g:user_emmet_leader_key=','
-
-" }}}
