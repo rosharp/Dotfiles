@@ -1,5 +1,5 @@
 # Basic Settings
-set ignorecase true
+# set ignorecase true
 set icons true
 set preview true
 
@@ -22,7 +22,7 @@ cmd mkfile ${{
                    text/*) nvim $fx;;
                    *) for f in $fx; do xdg-open $f > /dev/null 2> /dev/null & done;;
                esac
-
+}}
 
 cmd setwallpaper %cp "$f" ~/.config/wall.jpg && xwallpaper --zoom "$f"
 
@@ -74,4 +74,37 @@ map gd cd ~/documents
 map gD cd ~/downloads
 map gp cd ~/pictures
 map gc cd ~/.config
+
+# set info size:time
+set previewer ~/.config/lf/preview
+set cleaner ~/.config/lf/cleaner
+
+set icons
+map s set info size
+map i set info size:time
+map I set info
+map <esc> quit
+map <enter> shell
+map f $vi $(fzf)
+
+#cmd fzf_jump ${{
+#    res="$(ag -l --path-to-ignore ~/.config/git/.gitignore --nocolor --hidden -g "" | fzf --ansi --preview-window 'right:60%' --preview "batcat --color=always --style=header,grid --line-range :500 {}" --layout=default --header='Jump to location' | sed 's/\\/\\\\/g;s/"/\\"/g')"
+#    if [ -d "$res" ]; then
+#        cmd="cd"
+#    else
+#        cmd="select"
+#    fi
+#    lf -remote "send $id $cmd \"$res\""
+#}}
+
+cmd open ${{
+    case $(xdg-mime query filetype $f) in
+    application/pdf) nohup zathura $fx > /dev/null 2> /dev/null &;;
+    image/*) nohup sxiv $fx $(fd --no-ignore-vcs -t f -d 1 . ./) > /dev/null 2> /dev/null &;;
+    text/*|application/x-yaml) nvim $fx;;
+    *) for f in $fx; do $OPENER $f > /dev/null 2> /dev/null & done;;
+    esac
+}}
+
+map <c-f> :fzf_jump
 
