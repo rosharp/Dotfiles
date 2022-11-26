@@ -1,18 +1,26 @@
-http://www3.asahi.com/rss/index.rdf
-https://www.news24.jp/rss/index.rdf
-https://news.yahoo.co.jp/rss/topics/top-picks.xml
-https://lukespademan.com/posts/index.xml
-https://stackoverflow.com/feeds/question/4295782
-https://techcrunch.com/feed/
-http://news.yahoo.com/rss/
-https://www.rt.com/rss/news/
-https://time.com/feed/
-https://www.techmeme.com/feed.xml?x=1
-http://www.aljazeera.com/xml/rss/all.xml
-https://lukesmith.xyz/rss.xml
-https://notrelated.xyz/rss
-https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA "~Luke Smith (YouTube)"
-https://landchad.net/rss.xml
-https://based.cooking/rss.xml
-https://artixlinux.org/feed.php "tech"
-https://www.archlinux.org/feeds/news/ "tech"
+https://news.livedoor.com/topics/rss/top.xml "Livedoor Top"
+https://news.livedoor.com/topics/rss/dom.xml "Livedoor Japan"
+https://news.livedoor.com/topics/rss/int.xml "Livedoor International"
+https://news.livedoor.com/topics/rss/ent.xml "Livedoor Art"
+https://news.livedoor.com/rss/summary/52.xml "Livedoor Cinema"
+https://news.livedoor.com/topics/rss/eco.xml "Livedoor IT"
+
+https://news.ycombinator.com/rss HackerNews
+https://hnrss.org/newest HackerNews
+https://lobste.rs/rss Lobster
+https://reddit.com/.rss "Reddit Main"
+https://reddit.com/r/programming.rss "Reddit Programming"
+https://reddit.com/r/linux.rss "Reddit Linux"
+https://reddit.com/r/voidlinux.rss "Reddit Void"
+https://lukesmith.xyz/index.xml "Luke Smith"
+https://xeiaso.net/blog.rss "Xe Iaso"
+
+https://www.youtube.com/feeds/videos.xml?channel_id=UCCU0HzTA9ddqOgtuV-TJ9yw "Dry Creek Wrangler School"
+https://youtube.com/feeds/videos.xml?channel_id=UClkUhTjFbQbtGfS14h9Vw5g
+https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA "Luke Smith"
+https://youtube.com/feeds/videos.xml?channel_id=UCFq12kPZg4wTNPO7V_g3B-A "Михаил Непомнящий"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCVls1GmFKf6WlTraIb_IaJg "Distrotube"
+https://youtube.com/feeds/videos.xml?channel_id=UC7yZ6keOGsvERMp2HaEbbXQ "Devaslife"
+https://youtube.com/feeds/videos.xml?channel_id=UCFBjsYvwX7kWUjQoW7GcJ5A "Seto Koji"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCHRx3w9GE3r-iqpvIKsTgeQ "Nobody playlists"
+
