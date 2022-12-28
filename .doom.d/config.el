@@ -6,14 +6,14 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
-(setq user-full-name "Ro Sharp"
+(setq user-full-name "Vitaly Bekshnev"
       user-mail-address "vy.bekshnev@gmail.com")
 
 ;; (setq browse-url-browser-function 'browse-url-generic
 ;;       browse-url-generic-program "firefox")
-;; (setq browse-url-browser-function 'browse-url-firefox)
+(setq browse-url-browser-function 'browse-url-firefox)
 
-(setq browse-url-browser-function 'eww-browse-url)
+;; (setq browse-url-browser-function 'eww-browse-url)
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
@@ -39,6 +39,9 @@
 ;; Org-bullets
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
+;; Dashboard image
+(setq fancy-splash-image "/home/rosharp/.doom.d/splashes/emacs/emacs-gnu-logo.png")
+
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -56,8 +59,8 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org-roam"
-      org-agenda-files '("~/org-roam/daily"))
+(setq org-directory "~/org-roam")
+(setq org-agenda-files '("~/org-roam/daily"))
 
 (after! org-roam
     :ensure t
@@ -134,6 +137,28 @@
 
 ;; Github-Review
 (setq github-review-view-comments-in-code-lines t)
+
+;; org-alert
+(setq alert-default-style 'libnotify)
+(setq org-alert-interval 300
+      org-alert-notify-cutoff 10
+      org-alert-notify-after-event-cutoff 10)
+
+;; org-ui
+(use-package! websocket
+    :after org-roam)
+
+(use-package! org-roam-ui
+    :after org-roam ;; or :after org
+;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
+;;         a hookable mode anymore, you're advised to pick something yourself
+;;         if you don't care about startup time, use
+;;  :hook (after-init . org-roam-ui-mode)
+    :config
+    (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-update-on-save t
+          org-roam-ui-open-on-start t))
 
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
