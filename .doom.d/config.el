@@ -11,10 +11,15 @@
 
 ;; (setq browse-url-browser-function 'browse-url-generic
 ;;       browse-url-generic-program "firefox")
-(setq browse-url-browser-function 'browse-url-firefox)
+;; (setq browse-url-browser-function 'browse-url-firefox)
 
-;; (setq browse-url-browser-function 'eww-browse-url)
-
+(setq
+ browse-url-browser-function 'eww-browse-url ; Use eww as the default browser
+ shr-use-fonts  nil                          ; No special fonts
+ shr-use-colors nil                          ; No colours
+ shr-indentation 2                           ; Left-side margin
+ shr-width 70                                ; Fold text to 70 columns
+ eww-search-prefix "https://html.duckduckgo.com/?q=")
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
 ;; - `doom-font' -- the primary font to use
@@ -27,14 +32,17 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 14)
-      doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 24))
+(setq doom-font (font-spec :family "InconsolataLGC Nerd Font Mono" :size 15)
+      doom-big-font (font-spec :family "InconsolataLGC Nerd Font Mono" :size 24))
 (after! doom-themes
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t))
 (custom-set-faces!
   '(font-lock-comment-face :slant italic)
   '(font-lock-keyword-face :slant italic))
+
+;; opacity
+(doom/set-frame-opacity 85)
 
 ;; Org-bullets
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
@@ -62,6 +70,14 @@
 (setq org-directory "~/org-roam")
 (setq org-agenda-files '("~/org-roam/daily"))
 
+(add-to-list 'display-buffer-alist
+             '("\\*org-roam\\*"
+               (display-buffer-in-side-window)
+               (side . right)
+               (window-width . 0.4)
+               (window-height . fit-window-to-buffer)))
+
+
 (after! org-roam
     :ensure t
     :init
@@ -75,19 +91,23 @@
             ("d" "Default" plain
              (file "~/org-roam/Templates/ManualTemplate.org")
             :target (file+head "Misc/%<%Y%m%d%H%M%S>-${slug}.org"
-                               "#+title: ${title}\n#+filetags: Misc Fleeting %^{Tags}") :unnarrowed t)
+                               "#+title: ${title}\n#+filetags: Fleeting Misc %^{Tags}") :unnarrowed t)
             ("m" "Manual" plain
              (file "~/org-roam/Templates/ManualTemplate.org")
             :target (file+head "Manual/%<%Y%m%d%H%M%S>-${slug}.org"
-                               "#+title: ${title}\n#+filetags: Manual Fleeting %^{Tags}") :unnarrowed t)
+                               "#+title: ${title}\n#+filetags: Fleeting Manual %^{Tags}") :unnarrowed t)
             ("g" "GNU/Linux" plain
              (file "~/org-roam/Templates/LinuxTemplate.org")
             :target (file+head "Linux/%<%Y%m%d%H%M%S>-${slug}.org"
-                               "#+title: ${title}\n#+filetags: Linux Fleeting %^{Tags}") :unnarrowed t)
+                               "#+title: ${title}\n#+filetags: Fleeting Linux %^{Tags}") :unnarrowed t)
             ("s" "Software engineering" plain
              (file "~/org-roam/Templates/SoftEngTemplate.org")
             :target (file+head "Softeng/%<%Y%m%d%H%M%S>-${slug}.org"
-                               "#+title: ${title}\n#+filetags: SoftEng Fleeting %^{Tags}") :unnarrowed t)
+                               "#+title: ${title}\n#+filetags: Fleeting SoftEng %^{Tags}") :unnarrowed t)
+            ("t" "Testing" plain
+             (file "~/org-roam/Templates/TestingTemplate.org")
+            :target (file+head "Testing/%<%Y%m%d%H%M%S>-${slug}.org"
+                               "#+title: ${title}\n#+filetags: Fleeting Testing %^{Tags}") :unnarrowed t)
             ;; ("d" "DevOps" plain
             ;; "* Category\n- Class: [[roam:DevOps]] \n- Topic: %?\n\n* Reference: \n\n"
             ;; :target (file+head "DevOps/%<%Y%m%d%H%M%S>-${slug}.org"
@@ -95,7 +115,7 @@
             ("l" "Lesson" plain
              (file "~/org-roam/Templates/LessonTemplate.org")
             :target (file+head "Tutor/%<%Y%m%d%H%M%S>-${slug}.org"
-                               "#+title: ${title}\n#+filetags: Lesson Fleeting %^{Tags}") :unnarrowed t)
+                               "#+title: ${title}\n#+filetags: Fleeting Lesson %^{Tags}") :unnarrowed t)
             ;; ("m" "Meeting" plain
             ;; "* Category\n- Class: [[roam:Meeting]] \n- Topic: %?\n\n"
             ;; :target (file+head "class/meeting/%<%Y%m%d%H%M%S>-${slug}.org"
@@ -103,11 +123,11 @@
             ("p" "Project" plain
             "* Goals\n\n%?\n\n\* Tasks\n\n\** TODO Add Initial tasks\n\n* Dates\n\n"
             :if-new (file+head "Project/%<%Y%m%d%H%M%S>-${slug}.org"
-                               "#+title: ${title}\n#+filetags: Project Fleeting %^{Tags}") :unnarrowed t)
+                               "#+title: ${title}\n#+filetags: Fleeting Project %^{Tags}") :unnarrowed t)
             ("b" "Book Notes" plain
              (file "~/org-roam/Templates/BookNoteTemplate.org")
             :if-new (file+head "Books/%<%Y%m%d%H%M%S>-${slug}.org"
-                               "#+title: ${title}\n#+filetags: Book Notes Fleeting %^{Tags}") :unnarrowed t)
+                               "#+title: ${title}\n#+filetags: Fleeting Book Notes %^{Tags}") :unnarrowed t)
 
         )
     )
@@ -115,22 +135,14 @@
     (org-roam-db-autosync-enable)
 )
 
-;; fcitx
-(use-package fcitx
-  :ensure t
-  :config
-  (setq fcitx-use-dbus nil
-      fcitx-remote-command "fcitx5-remote")
-  (fcitx-aggressive-setup))
-
 ;; Ranger
-(ranger-override-dired-mode t)
-(setq ranger-hide-cursor nil)
-(setq ranger-cleanup-on-disable t)
-(setq ranger-preview-file t)
-(setq ranger-dont-show-binary t)
-(setq ranger-excluded-extensions '("mkv" "iso" "mp4"))
-(setq ranger-max-preview-size 10)
+;; (ranger-override-dired-mode t)
+;; (setq ranger-hide-cursor nil)
+;; (setq ranger-cleanup-on-disable t)
+;; (setq ranger-preview-file t)
+;; (setq ranger-dont-show-binary t)
+;; (setq ranger-excluded-extensions '("mkv" "iso" "mp4"))
+;; (setq ranger-max-preview-size 10)
 
 ;; Forge
 (setq auth-sources '("~/.authinfo.gpg"))
@@ -159,6 +171,30 @@
           org-roam-ui-follow t
           org-roam-ui-update-on-save t
           org-roam-ui-open-on-start t))
+
+;; mu4e headers
+(setq mu4e-headers-buffer-name "*mu4e-headers*")
+
+;; elfeed
+(global-set-key (kbd "C-x w") 'elfeed)
+(add-hook! 'elfeed-search-mode-hook #'elfeed-update)
+(setq elfeed-feeds
+      '("http://nullprogram.com/feed/"
+        "https://planet.emacslife.com/atom.xml"
+        "https://lukesmith.xyz/index.xml"
+        "https://reddit.com/r/linux.rss"
+        "https://lobste.rs/rss"
+        "https://news.ycombinator.com/rss"
+        "https://lwn.net/headlines/rss"
+        "https://youtube.com/feeds/videos.xml?channel_id=UCFBjsYvwX7kWUjQoW7GcJ5A"
+        "https://youtube.com/feeds/videos.xml?channel_id=UC7yZ6keOGsvERMp2HaEbbXQ"
+        "https://www.youtube.com/feeds/videos.xml?channel_id=UCVls1GmFKf6WlTraIb_IaJg"
+        "https://youtube.com/feeds/videos.xml?channel_id=UCFq12kPZg4wTNPO7V_g3B-A"
+        "https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA"
+        "https://www.youtube.com/feeds/videos.xml?channel_id=UCCU0HzTA9ddqOgtuV-TJ9yw"
+        ))
+(setf url-queue-timeout 30)
+
 
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an

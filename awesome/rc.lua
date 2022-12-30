@@ -252,6 +252,7 @@ awful.screen.connect_for_each_screen(function(s) beautiful.at_screen_connect(s) 
 
 -- Useless gap
 -- beautiful.useless_gap = 10
+-- beautiful.gap_single_client = false
 
 
 -- Rounded corners
@@ -862,7 +863,7 @@ do
     "fcitx5 -d",
     "xinput set-prop 'SynPS/2 Synaptics TouchPad' 'libinput Tapping Enabled' 1",
     "xbanish",
-    "picom -b",
+    -- "picom -b",
     "xss-lock --transfer-sleep-lock -- i3lock --nofork"
   }
 

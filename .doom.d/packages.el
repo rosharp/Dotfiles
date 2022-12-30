@@ -15,6 +15,7 @@
 (package! forge)
 (package! github-review)
 (package! org-alert)
+(package! consult-org-roam)
 
 (unpin! org-roam)
 (package! org-roam-ui)
