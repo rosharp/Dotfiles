@@ -13,6 +13,24 @@ The programs I curently use:
 - [Doom Emacs](https://github.com/doomemacs/doomemacs) + [org-roam](https://github.com/org-roam/org-roam)
 - Browser: Firefox/Tor
 
+### Status Bar
+
+IF you are tired of the default `i3-bar`, [bumblebee-status](https://github.com/rosharp/Dotfiles) is a great native-like alternative.
+
+### Firefox Extensions
+
+The less extensions are installed, the better. However, I cannot help but use `vim`-keys and I don't like ads. Musts are:
+
+1. [uBlock](https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/)
+2. [Dark Reader](https://addons.mozilla.org/en-US/firefox/addon/darkreader/)
+3. [Tridactyl](https://addons.mozilla.org/en-US/firefox/addon/tridactyl-vim/)
+
+#### userChrome
+
+Custom theme on the screenshots is [firefox-i3wm-theme](https://github.com/aadilayub/firefox-i3wm-theme).
+
+Again, it's better to not use any custom theme for the security and performance reasons. Most themes require to tweak some browser settings. However, this theme _almost_ doesn't.
+
 ### Emacs Plugins
 
 My essentials are (aside from default Doom plugins):
