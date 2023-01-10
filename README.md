@@ -15,7 +15,7 @@ The programs I curently use:
 
 ### Status Bar
 
-IF you are tired of the default `i3-bar`, [bumblebee-status](https://github.com/rosharp/Dotfiles) is a great native-like alternative.
+If you are tired of the default `i3-bar`, [bumblebee-status](https://github.com/rosharp/Dotfiles) is a great native-like alternative.
 
 ### Firefox Extensions
 
