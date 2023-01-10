@@ -1,5 +1,7 @@
 # Dotfiles
 
-![Screenshot](https://github.com/rosharp/dotfiles/blob/main/desktop-image.png?raw=true)
-
+![1](./images/1.png)
+![2](./images/2.png)
+![3](./images/3.png)
+![4](./images/4.png)
 
