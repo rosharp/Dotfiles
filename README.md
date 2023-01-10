@@ -19,7 +19,9 @@ IF you are tired of the default `i3-bar`, [bumblebee-status](https://github.com/
 
 ### Firefox Extensions
 
-The less extensions are installed, the better. However, I cannot help but use `vim`-keys and I don't like ads. Musts are:
+The less extensions are installed, the better. However, I cannot help but use `vim`-keys and I don't like ads. 
+
+Musts are:
 
 1. [uBlock](https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/)
 2. [Dark Reader](https://addons.mozilla.org/en-US/firefox/addon/darkreader/)
@@ -29,7 +31,7 @@ The less extensions are installed, the better. However, I cannot help but use `v
 
 Custom theme on the screenshots is [firefox-i3wm-theme](https://github.com/aadilayub/firefox-i3wm-theme).
 
-Again, it's better to not use any custom theme for the security and performance reasons. Most themes require to tweak some browser settings. However, this theme _almost_ doesn't.
+Again, it's better to not use any custom theme for the security and performance reasons as most themes require to tweak some browser settings. However, this theme _almost_ doesn't.
 
 ### Emacs Plugins
 
