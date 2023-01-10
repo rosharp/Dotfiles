@@ -11,15 +11,21 @@
 
 ;; (setq browse-url-browser-function 'browse-url-generic
 ;;       browse-url-generic-program "firefox")
-;; (setq browse-url-browser-function 'browse-url-firefox)
+(setq browse-url-browser-function 'browse-url-firefox)
 
-(setq
- browse-url-browser-function 'eww-browse-url ; Use eww as the default browser
- shr-use-fonts  nil                          ; No special fonts
- shr-use-colors nil                          ; No colours
- shr-indentation 2                           ; Left-side margin
- shr-width 70                                ; Fold text to 70 columns
- eww-search-prefix "https://html.duckduckgo.com/?q=")
+;; show scheduled date in org-agenda
+(setq org-columns-default-format
+      "%FILE %TODO %25ITEM %3PRIORITY %SCHEDULED %DEADLINE %TAGS")
+;; enable agenda columns initially
+;; (setq org-agenda-view-columns-initially t)
+
+;; (setq
+;;  browse-url-browser-function 'eww-browse-url ; Use eww as the default browser
+;;  shr-use-fonts  nil                          ; No special fonts
+;;  shr-use-colors nil                          ; No colours
+;;  shr-indentation 2                           ; Left-side margin
+;;  shr-width 70                                ; Fold text to 70 columns
+;;  eww-search-prefix "https://html.duckduckgo.com/?q=")
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
 ;; - `doom-font' -- the primary font to use
@@ -32,8 +38,10 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "InconsolataLGC Nerd Font Mono" :size 15)
-      doom-big-font (font-spec :family "InconsolataLGC Nerd Font Mono" :size 24))
+(setq doom-font (font-spec :family "InconsolataLGC Nerd Font Mono" :size 16)
+      doom-variable-pitch-font (font-spec :family "iMWritingMonoS Nerd Font" :size 16)
+      ;;doom-variable-pitch-font (font-spec :family "Alegreya" :size 18)
+      doom-big-font (font-spec :family "InconsolataLGC Nerd Font Mono" :size 20))
 (after! doom-themes
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t))
@@ -41,14 +49,22 @@
   '(font-lock-comment-face :slant italic)
   '(font-lock-keyword-face :slant italic))
 
+(add-hook! 'org-mode-hook #'mixed-pitch-mode)
+(add-hook! 'org-mode-hook #'solaire-mode)
+(setq mixed-pitch-variable-pitch-cursor nil)
+
 ;; opacity
-(doom/set-frame-opacity 85)
+(doom/set-frame-opacity 100)
 
 ;; Org-bullets
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
+;; org notification
+(setq org-clock-sound "~/notification.wav")
+
 ;; Dashboard image
 (setq fancy-splash-image "/home/rosharp/.doom.d/splashes/emacs/emacs-gnu-logo.png")
+
 
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
@@ -59,11 +75,48 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-solarized-dark)
+
+(setq modus-themes-italic-constructs t
+      modus-themes-bold-constructs nil
+      modus-themes-mixed-fonts t
+      modus-themes-variable-pitch-ui nil
+      modus-themes-custom-auto-reload t
+
+      ;; Options for `modus-themes-prompts' are either nil (the
+      ;; default), or a list of properties that may include any of those
+      ;; symbols: `italic', `WEIGHT'
+      modus-themes-prompts '(italic bold)
+
+      ;; The `modus-themes-completions' is an alist that reads two
+      ;; keys: `matches', `selection'.  Each accepts a nil value (or
+      ;; empty list) or a list of properties that can include any of
+      ;; the following (for WEIGHT read further below):
+      ;;
+      ;; `matches'   :: `underline', `italic', `WEIGHT'
+      ;; `selection' :: `underline', `italic', `WEIGHT'
+      modus-themes-completions
+      '((matches . (extrabold))
+        (selection . (semibold italic text-also)))
+
+      modus-themes-org-blocks 'gray-background ; {nil,'gray-background,'tinted-background}
+
+      ;; The `modus-themes-headings' is an alist: read the manual's
+      ;; node about it or its doc string.  Basically, it supports
+      ;; per-level configurations for the optional use of
+      ;; `variable-pitch' typography, a height value as a multiple of
+      ;; the base font size (e.g. 1.5), and a `WEIGHT'.
+      modus-themes-headings
+      '((1 . (variable-pitch 1.5))
+        (2 . (1.3))
+        (agenda-date . (1.3))
+        (agenda-structure . (variable-pitch light 1.8))
+        (t . (1.1))))
+
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type t)
+(setq display-line-numbers-type 'relative)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -77,6 +130,16 @@
                (window-width . 0.4)
                (window-height . fit-window-to-buffer)))
 
+;; disable completion in org
+(defun zz/adjust-org-company-backends ()
+  (remove-hook 'after-change-major-mode-hook '+company-init-backends-h)
+  (setq-local company-backends nil))
+(add-hook! org-mode (zz/adjust-org-company-backends))
+
+;; visual line in org
+(add-hook! org-mode :append
+           #'visual-line-mode
+           #'variable-pitch-mode)
 
 (after! org-roam
     :ensure t
@@ -89,7 +152,7 @@
     (setq org-roam-capture-templates
         '(
             ("d" "Default" plain
-             (file "~/org-roam/Templates/ManualTemplate.org")
+             (file "~/org-roam/Templates/DefaultTemplate.org")
             :target (file+head "Misc/%<%Y%m%d%H%M%S>-${slug}.org"
                                "#+title: ${title}\n#+filetags: Fleeting Misc %^{Tags}") :unnarrowed t)
             ("m" "Manual" plain
@@ -108,6 +171,10 @@
              (file "~/org-roam/Templates/TestingTemplate.org")
             :target (file+head "Testing/%<%Y%m%d%H%M%S>-${slug}.org"
                                "#+title: ${title}\n#+filetags: Fleeting Testing %^{Tags}") :unnarrowed t)
+            ("w" "Writing" plain
+             (file "~/org-roam/Templates/WritingTemplate.org")
+            :target (file+head "Writing/%<%Y%m%d%H%M%S>-${slug}.org"
+                               "#+title: ${title}\n#+filetags: Fleeting Writing %^{Tags}") :unnarrowed t)
             ;; ("d" "DevOps" plain
             ;; "* Category\n- Class: [[roam:DevOps]] \n- Topic: %?\n\n* Reference: \n\n"
             ;; :target (file+head "DevOps/%<%Y%m%d%H%M%S>-${slug}.org"
@@ -150,12 +217,6 @@
 ;; Github-Review
 (setq github-review-view-comments-in-code-lines t)
 
-;; org-alert
-(setq alert-default-style 'libnotify)
-(setq org-alert-interval 300
-      org-alert-notify-cutoff 10
-      org-alert-notify-after-event-cutoff 10)
-
 ;; org-ui
 (use-package! websocket
     :after org-roam)
@@ -172,19 +233,19 @@
           org-roam-ui-update-on-save t
           org-roam-ui-open-on-start t))
 
-;; mu4e headers
-(setq mu4e-headers-buffer-name "*mu4e-headers*")
-
 ;; elfeed
 (global-set-key (kbd "C-x w") 'elfeed)
 (add-hook! 'elfeed-search-mode-hook #'elfeed-update)
 (setq elfeed-feeds
-      '("http://nullprogram.com/feed/"
+      '(
+        "https://news.livedoor.com/topics/rss/top.xml 'Livedoor Top'"
+        "http://nullprogram.com/feed/"
+        "https://rubenerd.com/feed/"
         "https://planet.emacslife.com/atom.xml"
         "https://lukesmith.xyz/index.xml"
-        "https://reddit.com/r/linux.rss"
+        ;;"https://reddit.com/r/linux.rss"
         "https://lobste.rs/rss"
-        "https://news.ycombinator.com/rss"
+        ;;"https://news.ycombinator.com/rss"
         "https://lwn.net/headlines/rss"
         "https://youtube.com/feeds/videos.xml?channel_id=UCFBjsYvwX7kWUjQoW7GcJ5A"
         "https://youtube.com/feeds/videos.xml?channel_id=UC7yZ6keOGsvERMp2HaEbbXQ"
@@ -195,7 +256,8 @@
         ))
 (setf url-queue-timeout 30)
 
-
+;; calibre
+(global-set-key (kbd "C-x c") 'calibredb)
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.

@@ -9,16 +9,22 @@
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)
 
-(package! fcitx)
-(package! org-bullets)
-(package! ranger)
+(package! elfeed)
 (package! forge)
 (package! github-review)
-(package! org-alert)
-(package! consult-org-roam)
+(package! calibredb)
+(package! mentor)
+(package! spacemacs-theme)
+(package! modus-themes)
+(package! fzf)
 
 (unpin! org-roam)
+(package! org-notifications)
+(package! org-pomodoro)
+(package! org-bullets)
 (package! org-roam-ui)
+(package! consult-org-roam)
+
 
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
