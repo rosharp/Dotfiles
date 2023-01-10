@@ -26,5 +26,5 @@ My essentials are (aside from default Doom plugins):
 
 ## OS 
 
-[Debian Stable](https://www.debian.org/releases/stable/) is indeed stable. It may lack some newest features (e.g. [PipeWire + Wireplumber](https://rosharp.github.io/posts/pipewire-with-wireplumber-on-debian/)), but most things are easy to set up since we have `apt`. 
+[Debian Stable](https://www.debian.org/releases/stable/) is indeed stable. It may lack some of the newest features (e.g. [PipeWire + Wireplumber](https://rosharp.github.io/posts/pipewire-with-wireplumber-on-debian/)), but most things are easy to set up since we have `apt`. 
 
