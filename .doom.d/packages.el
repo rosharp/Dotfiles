@@ -13,18 +13,24 @@
 (package! forge)
 (package! github-review)
 (package! calibredb)
+(package! nov)
 (package! mentor)
-(package! spacemacs-theme)
-(package! modus-themes)
+;;(package! modus-themes)
 (package! fzf)
+(package! org-ros)
 
+(package! dired-open)
+(package! dired-subtree)
+(package! peep-dired)
+(package! diredfl)
+
+;;(package! olivetti)
 (unpin! org-roam)
 (package! org-notifications)
 (package! org-pomodoro)
 (package! org-bullets)
 (package! org-roam-ui)
-(package! consult-org-roam)
-
+;;(package! consult-org-roam)
 
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:

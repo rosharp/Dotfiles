@@ -4,6 +4,9 @@
 ;; sync' after modifying this file!
 
 
+
+
+
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
 (setq user-full-name "Vitaly Bekshnev"
@@ -38,8 +41,8 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "InconsolataLGC Nerd Font Mono" :size 16)
-      doom-variable-pitch-font (font-spec :family "iMWritingMonoS Nerd Font" :size 16)
+(setq doom-font (font-spec :family "InconsolataLGC Nerd Font Mono" :size 18)
+      doom-variable-pitch-font (font-spec :family "iMWritingMonoS Nerd Font" :size 18)
       ;;doom-variable-pitch-font (font-spec :family "Alegreya" :size 18)
       doom-big-font (font-spec :family "InconsolataLGC Nerd Font Mono" :size 20))
 (after! doom-themes
@@ -54,7 +57,7 @@
 (setq mixed-pitch-variable-pitch-cursor nil)
 
 ;; opacity
-(doom/set-frame-opacity 100)
+(doom/set-frame-opacity 85)
 
 ;; Org-bullets
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
@@ -62,8 +65,37 @@
 ;; org notification
 (setq org-clock-sound "~/notification.wav")
 
+(setq
+   ;; org-fancy-priorities-list '("[A]" "[B]" "[C]")
+   ;; org-fancy-priorities-list '("❗" "[B]" "[C]")
+   org-fancy-priorities-list '("🟥" "🟧" "🟨")
+   org-priority-faces
+   '((?A :foreground "#ff6c6b" :weight bold)
+     (?B :foreground "#98be65" :weight bold)
+     (?C :foreground "#c678dd" :weight bold))
+   org-agenda-block-separator 8411)
+
+(setq org-agenda-custom-commands
+      '(("v" "A better agenda view"
+         ((tags "PRIORITY=\"A\""
+                ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                 (org-agenda-overriding-header "High-priority unfinished tasks:")))
+          (tags "PRIORITY=\"B\""
+                ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                 (org-agenda-overriding-header "Medium-priority unfinished tasks:")))
+          (tags "PRIORITY=\"C\""
+                ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                 (org-agenda-overriding-header "Low-priority unfinished tasks:")))
+          (tags "customtag"
+                ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                 (org-agenda-overriding-header "Tasks marked with customtag:")))
+
+          (agenda "")
+          (alltodo "")))))
+
+
 ;; Dashboard image
-(setq fancy-splash-image "/home/rosharp/.doom.d/splashes/emacs/emacs-gnu-logo.png")
+;; (setq fancy-splash-image "/home/rosharp/.doom.d/splashes/emacs/emacs-gnu-logo.png")
 
 
 ;;
@@ -75,7 +107,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-solarized-dark)
+(setq doom-theme 'doom-one)
 
 (setq modus-themes-italic-constructs t
       modus-themes-bold-constructs nil
@@ -155,10 +187,6 @@
              (file "~/org-roam/Templates/DefaultTemplate.org")
             :target (file+head "Misc/%<%Y%m%d%H%M%S>-${slug}.org"
                                "#+title: ${title}\n#+filetags: Fleeting Misc %^{Tags}") :unnarrowed t)
-            ("m" "Manual" plain
-             (file "~/org-roam/Templates/ManualTemplate.org")
-            :target (file+head "Manual/%<%Y%m%d%H%M%S>-${slug}.org"
-                               "#+title: ${title}\n#+filetags: Fleeting Manual %^{Tags}") :unnarrowed t)
             ("g" "GNU/Linux" plain
              (file "~/org-roam/Templates/LinuxTemplate.org")
             :target (file+head "Linux/%<%Y%m%d%H%M%S>-${slug}.org"
@@ -167,34 +195,42 @@
              (file "~/org-roam/Templates/SoftEngTemplate.org")
             :target (file+head "Softeng/%<%Y%m%d%H%M%S>-${slug}.org"
                                "#+title: ${title}\n#+filetags: Fleeting SoftEng %^{Tags}") :unnarrowed t)
+            ("n" "Networking" plain
+             (file "~/org-roam/Templates/NetworkingTemplate.org")
+            :target (file+head "Networking/%<%Y%m%d%H%M%S>-${slug}.org"
+                               "#+title: ${title}\n#+filetags: Fleeting Networking %^{Tags}") :unnarrowed t)
             ("t" "Testing" plain
              (file "~/org-roam/Templates/TestingTemplate.org")
             :target (file+head "Testing/%<%Y%m%d%H%M%S>-${slug}.org"
                                "#+title: ${title}\n#+filetags: Fleeting Testing %^{Tags}") :unnarrowed t)
-            ("w" "Writing" plain
-             (file "~/org-roam/Templates/WritingTemplate.org")
-            :target (file+head "Writing/%<%Y%m%d%H%M%S>-${slug}.org"
-                               "#+title: ${title}\n#+filetags: Fleeting Writing %^{Tags}") :unnarrowed t)
+            ;; ("m" "Manual" plain
+            ;;  (file "~/org-roam/Templates/ManualTemplate.org")
+            ;; :target (file+head "Manual/%<%Y%m%d%H%M%S>-${slug}.org"
+            ;;                    "#+title: ${title}\n#+filetags: Fleeting Manual %^{Tags}") :unnarrowed t)
+            ;; ("w" "Writing" plain
+            ;;  (file "~/org-roam/Templates/WritingTemplate.org")
+            ;; :target (file+head "Writing/%<%Y%m%d%H%M%S>-${slug}.org"
+            ;;                    "#+title: ${title}\n#+filetags: Fleeting Writing %^{Tags}") :unnarrowed t)
             ;; ("d" "DevOps" plain
             ;; "* Category\n- Class: [[roam:DevOps]] \n- Topic: %?\n\n* Reference: \n\n"
             ;; :target (file+head "DevOps/%<%Y%m%d%H%M%S>-${slug}.org"
             ;;                    "#+title: ${title}\n#+filetags: DevOps Fleeting %^{Tags}") :unnarrowed t)
-            ("l" "Lesson" plain
-             (file "~/org-roam/Templates/LessonTemplate.org")
-            :target (file+head "Tutor/%<%Y%m%d%H%M%S>-${slug}.org"
-                               "#+title: ${title}\n#+filetags: Fleeting Lesson %^{Tags}") :unnarrowed t)
+            ;; ("l" "Lesson" plain
+            ;;  (file "~/org-roam/Templates/LessonTemplate.org")
+            ;; :target (file+head "Tutor/%<%Y%m%d%H%M%S>-${slug}.org"
+            ;;                    "#+title: ${title}\n#+filetags: Fleeting Lesson %^{Tags}") :unnarrowed t)
             ;; ("m" "Meeting" plain
             ;; "* Category\n- Class: [[roam:Meeting]] \n- Topic: %?\n\n"
             ;; :target (file+head "class/meeting/%<%Y%m%d%H%M%S>-${slug}.org"
             ;;                    "#+title: ${title}\n#+filetags: Meeting") :unnarrowed t)
-            ("p" "Project" plain
-            "* Goals\n\n%?\n\n\* Tasks\n\n\** TODO Add Initial tasks\n\n* Dates\n\n"
-            :if-new (file+head "Project/%<%Y%m%d%H%M%S>-${slug}.org"
-                               "#+title: ${title}\n#+filetags: Fleeting Project %^{Tags}") :unnarrowed t)
-            ("b" "Book Notes" plain
-             (file "~/org-roam/Templates/BookNoteTemplate.org")
-            :if-new (file+head "Books/%<%Y%m%d%H%M%S>-${slug}.org"
-                               "#+title: ${title}\n#+filetags: Fleeting Book Notes %^{Tags}") :unnarrowed t)
+            ;; ("p" "Project" plain
+            ;; "* Goals\n\n%?\n\n\* Tasks\n\n\** TODO Add Initial tasks\n\n* Dates\n\n"
+            ;; :if-new (file+head "Project/%<%Y%m%d%H%M%S>-${slug}.org"
+            ;;                    "#+title: ${title}\n#+filetags: Fleeting Project %^{Tags}") :unnarrowed t)
+            ;; ("b" "Book Notes" plain
+            ;;  (file "~/org-roam/Templates/BookNoteTemplate.org")
+            ;; :if-new (file+head "Books/%<%Y%m%d%H%M%S>-${slug}.org"
+            ;;                    "#+title: ${title}\n#+filetags: Fleeting Book Notes %^{Tags}") :unnarrowed t)
 
         )
     )
@@ -234,30 +270,44 @@
           org-roam-ui-open-on-start t))
 
 ;; elfeed
-(global-set-key (kbd "C-x w") 'elfeed)
-(add-hook! 'elfeed-search-mode-hook #'elfeed-update)
-(setq elfeed-feeds
-      '(
-        "https://news.livedoor.com/topics/rss/top.xml 'Livedoor Top'"
-        "http://nullprogram.com/feed/"
-        "https://rubenerd.com/feed/"
-        "https://planet.emacslife.com/atom.xml"
-        "https://lukesmith.xyz/index.xml"
-        ;;"https://reddit.com/r/linux.rss"
-        "https://lobste.rs/rss"
-        ;;"https://news.ycombinator.com/rss"
-        "https://lwn.net/headlines/rss"
-        "https://youtube.com/feeds/videos.xml?channel_id=UCFBjsYvwX7kWUjQoW7GcJ5A"
-        "https://youtube.com/feeds/videos.xml?channel_id=UC7yZ6keOGsvERMp2HaEbbXQ"
-        "https://www.youtube.com/feeds/videos.xml?channel_id=UCVls1GmFKf6WlTraIb_IaJg"
-        "https://youtube.com/feeds/videos.xml?channel_id=UCFq12kPZg4wTNPO7V_g3B-A"
-        "https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA"
-        "https://www.youtube.com/feeds/videos.xml?channel_id=UCCU0HzTA9ddqOgtuV-TJ9yw"
-        ))
-(setf url-queue-timeout 30)
+;;(global-set-key (kbd "C-x w") 'elfeed)
+;;(add-hook! 'elfeed-search-mode-hook #'elfeed-update)
+;;(setq elfeed-feeds
+;;      '(
+;;        "https://news.livedoor.com/topics/rss/top.xml"
+;;        "http://nullprogram.com/feed/"
+;;        "https://rubenerd.com/feed/"
+;;        "https://iximiuz.com/feed.rss"
+;;        "https://planet.emacslife.com/atom.xml"
+;;        "https://lukesmith.xyz/index.xml"
+;;        "https://reddit.com/r/linux.rss"
+;;        "https://reddit.com/r/emacs.rss"
+;;        "https://reddit.com/r/org-mode.rss"
+;;        "https://lobste.rs/rss"
+;;        "https://news.ycombinator.com/rss"
+;;        "https://www.redhat.com/sysadmin/rss.xml"
+;;        "https://lwn.net/headlines/rss"
+;;        "https://youtube.com/feeds/videos.xml?channel_id=UCFBjsYvwX7kWUjQoW7GcJ5A"
+;;        "https://youtube.com/feeds/videos.xml?channel_id=UC7yZ6keOGsvERMp2HaEbbXQ"
+;;        "https://www.youtube.com/feeds/videos.xml?channel_id=UCVls1GmFKf6WlTraIb_IaJg"
+;;        "https://youtube.com/feeds/videos.xml?channel_id=UCFq12kPZg4wTNPO7V_g3B-A"
+;;        "https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA"
+;;        "https://www.youtube.com/feeds/videos.xml?channel_id=UCCU0HzTA9ddqOgtuV-TJ9yw"
+;;        ))
+;;(setf url-queue-timeout 30)
 
 ;; calibre
 (global-set-key (kbd "C-x c") 'calibredb)
+
+;; pdf-tools
+(setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+      TeX-view-program-list '(("PDF Tools" TeX-pdf-tools-sync-view))
+      TeX-source-correlate-start-server t)
+
+(add-hook 'TeX-after-compilation-finished-functions
+          #'TeX-revert-document-buffer)
+
+(pdf-tools-install)
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -290,3 +340,4 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+;;
