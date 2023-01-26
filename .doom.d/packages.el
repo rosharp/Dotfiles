@@ -18,6 +18,7 @@
 ;;(package! modus-themes)
 (package! fzf)
 (package! org-ros)
+(package! good-scroll)
 
 (package! dired-open)
 (package! dired-subtree)

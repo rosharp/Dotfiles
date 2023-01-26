@@ -1,34 +1,27 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
-;; Place your private configuration here! Remember, you do not need to run 'doom
-;; sync' after modifying this file!
-
-
-
-
-
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
 (setq user-full-name "Vitaly Bekshnev"
       user-mail-address "vy.bekshnev@gmail.com")
 
-;; (setq browse-url-browser-function 'browse-url-generic
-;;       browse-url-generic-program "firefox")
 (setq browse-url-browser-function 'browse-url-firefox)
 
 ;; show scheduled date in org-agenda
 (setq org-columns-default-format
       "%FILE %TODO %25ITEM %3PRIORITY %SCHEDULED %DEADLINE %TAGS")
+
 ;; enable agenda columns initially
 ;; (setq org-agenda-view-columns-initially t)
 
-;; (setq
+;;(setq
 ;;  browse-url-browser-function 'eww-browse-url ; Use eww as the default browser
 ;;  shr-use-fonts  nil                          ; No special fonts
 ;;  shr-use-colors nil                          ; No colours
 ;;  shr-indentation 2                           ; Left-side margin
 ;;  shr-width 70                                ; Fold text to 70 columns
 ;;  eww-search-prefix "https://html.duckduckgo.com/?q=")
+
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
 ;; - `doom-font' -- the primary font to use
@@ -38,13 +31,10 @@
 ;; - `doom-unicode-font' -- for unicode glyphs
 ;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
 ;;
-;; See 'C-h v doom-font' for documentation and more examples of what they
-;; accept. For example:
-;;
-(setq doom-font (font-spec :family "InconsolataLGC Nerd Font Mono" :size 18)
-      doom-variable-pitch-font (font-spec :family "iMWritingMonoS Nerd Font" :size 18)
-      ;;doom-variable-pitch-font (font-spec :family "Alegreya" :size 18)
-      doom-big-font (font-spec :family "InconsolataLGC Nerd Font Mono" :size 20))
+
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 15)
+      doom-variable-pitch-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 15)
+      doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 18))
 (after! doom-themes
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t))
@@ -56,95 +46,63 @@
 (add-hook! 'org-mode-hook #'solaire-mode)
 (setq mixed-pitch-variable-pitch-cursor nil)
 
+  ;; Increase line spacing
+  (setq-default line-spacing 6)
+
 ;; opacity
-(doom/set-frame-opacity 85)
+(doom/set-frame-opacity 100)
 
 ;; Org-bullets
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
-;; org notification
-(setq org-clock-sound "~/notification.wav")
+;; markdown faces
+(custom-set-faces!
+'(markdown-header-delimiter-face :foreground "#616161" :height 0.9)
+'(markdown-header-face-1 :height 1.8 :foreground "#A3BE8C" :weight extra-bold :inherit markdown-header-face)
+'(markdown-header-face-2 :height 1.4 :foreground "#EBCB8B" :weight extra-bold :inherit markdown-header-face)
+'(markdown-header-face-3 :height 1.2 :foreground "#D08770" :weight extra-bold :inherit markdown-header-face)
+'(markdown-header-face-4 :height 1.15 :foreground "#BF616A" :weight bold :inherit markdown-header-face)
+'(markdown-header-face-5 :height 1.1 :foreground "#b48ead" :weight bold :inherit markdown-header-face)
+'(markdown-header-face-6 :height 1.05 :foreground "#5e81ac" :weight semi-bold :inherit markdown-header-face))
 
-(setq
-   ;; org-fancy-priorities-list '("[A]" "[B]" "[C]")
-   ;; org-fancy-priorities-list '("❗" "[B]" "[C]")
-   org-fancy-priorities-list '("🟥" "🟧" "🟨")
-   org-priority-faces
-   '((?A :foreground "#ff6c6b" :weight bold)
-     (?B :foreground "#98be65" :weight bold)
-     (?C :foreground "#c678dd" :weight bold))
-   org-agenda-block-separator 8411)
+;; hide markup & show when editing
+(defvar nb/current-line '(0 . 0)
+   "(start . end) of current line in current buffer")
+ (make-variable-buffer-local 'nb/current-line)
 
-(setq org-agenda-custom-commands
-      '(("v" "A better agenda view"
-         ((tags "PRIORITY=\"A\""
-                ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-                 (org-agenda-overriding-header "High-priority unfinished tasks:")))
-          (tags "PRIORITY=\"B\""
-                ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-                 (org-agenda-overriding-header "Medium-priority unfinished tasks:")))
-          (tags "PRIORITY=\"C\""
-                ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-                 (org-agenda-overriding-header "Low-priority unfinished tasks:")))
-          (tags "customtag"
-                ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-                 (org-agenda-overriding-header "Tasks marked with customtag:")))
+ (defun nb/unhide-current-line (limit)
+   "Font-lock function"
+   (let ((start (max (point) (car nb/current-line)))
+         (end (min limit (cdr nb/current-line))))
+     (when (< start end)
+       (remove-text-properties start end
+                       '(invisible t display "" composition ""))
+       (goto-char limit)
+       t)))
 
-          (agenda "")
-          (alltodo "")))))
+ (defun nb/refontify-on-linemove ()
+   "Post-command-hook"
+   (let* ((start (line-beginning-position))
+          (end (line-beginning-position 2))
+          (needs-update (not (equal start (car nb/current-line)))))
+     (setq nb/current-line (cons start end))
+     (when needs-update
+       (font-lock-fontify-block 3))))
 
+ (defun nb/markdown-unhighlight ()
+   "Enable markdown concealling"
+   (interactive)
+   (markdown-toggle-markup-hiding 'toggle)
+   (font-lock-add-keywords nil '((nb/unhide-current-line)) t)
+   (add-hook 'post-command-hook #'nb/refontify-on-linemove nil t))
+
+ (add-hook 'markdown-mode-hook #'nb/markdown-unhighlight)
 
 ;; Dashboard image
-;; (setq fancy-splash-image "/home/rosharp/.doom.d/splashes/emacs/emacs-gnu-logo.png")
+(setq fancy-splash-image "/home/rosharp/.doom.d/splashes/emacs/emacs-gnu-logo.png")
 
-
-;;
-;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
-;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
-;; refresh your font settings. If Emacs still can't find your font, it likely
-;; wasn't installed correctly. Font issues are rarely Doom issues!
-
-;; There are two ways to load a theme. Both assume the theme is installed and
-;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-one)
-
-(setq modus-themes-italic-constructs t
-      modus-themes-bold-constructs nil
-      modus-themes-mixed-fonts t
-      modus-themes-variable-pitch-ui nil
-      modus-themes-custom-auto-reload t
-
-      ;; Options for `modus-themes-prompts' are either nil (the
-      ;; default), or a list of properties that may include any of those
-      ;; symbols: `italic', `WEIGHT'
-      modus-themes-prompts '(italic bold)
-
-      ;; The `modus-themes-completions' is an alist that reads two
-      ;; keys: `matches', `selection'.  Each accepts a nil value (or
-      ;; empty list) or a list of properties that can include any of
-      ;; the following (for WEIGHT read further below):
-      ;;
-      ;; `matches'   :: `underline', `italic', `WEIGHT'
-      ;; `selection' :: `underline', `italic', `WEIGHT'
-      modus-themes-completions
-      '((matches . (extrabold))
-        (selection . (semibold italic text-also)))
-
-      modus-themes-org-blocks 'gray-background ; {nil,'gray-background,'tinted-background}
-
-      ;; The `modus-themes-headings' is an alist: read the manual's
-      ;; node about it or its doc string.  Basically, it supports
-      ;; per-level configurations for the optional use of
-      ;; `variable-pitch' typography, a height value as a multiple of
-      ;; the base font size (e.g. 1.5), and a `WEIGHT'.
-      modus-themes-headings
-      '((1 . (variable-pitch 1.5))
-        (2 . (1.3))
-        (agenda-date . (1.3))
-        (agenda-structure . (variable-pitch light 1.8))
-        (t . (1.1))))
-
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -203,49 +161,90 @@
              (file "~/org-roam/Templates/TestingTemplate.org")
             :target (file+head "Testing/%<%Y%m%d%H%M%S>-${slug}.org"
                                "#+title: ${title}\n#+filetags: Fleeting Testing %^{Tags}") :unnarrowed t)
-            ;; ("m" "Manual" plain
-            ;;  (file "~/org-roam/Templates/ManualTemplate.org")
-            ;; :target (file+head "Manual/%<%Y%m%d%H%M%S>-${slug}.org"
-            ;;                    "#+title: ${title}\n#+filetags: Fleeting Manual %^{Tags}") :unnarrowed t)
-            ;; ("w" "Writing" plain
-            ;;  (file "~/org-roam/Templates/WritingTemplate.org")
-            ;; :target (file+head "Writing/%<%Y%m%d%H%M%S>-${slug}.org"
-            ;;                    "#+title: ${title}\n#+filetags: Fleeting Writing %^{Tags}") :unnarrowed t)
-            ;; ("d" "DevOps" plain
-            ;; "* Category\n- Class: [[roam:DevOps]] \n- Topic: %?\n\n* Reference: \n\n"
-            ;; :target (file+head "DevOps/%<%Y%m%d%H%M%S>-${slug}.org"
-            ;;                    "#+title: ${title}\n#+filetags: DevOps Fleeting %^{Tags}") :unnarrowed t)
-            ;; ("l" "Lesson" plain
-            ;;  (file "~/org-roam/Templates/LessonTemplate.org")
-            ;; :target (file+head "Tutor/%<%Y%m%d%H%M%S>-${slug}.org"
-            ;;                    "#+title: ${title}\n#+filetags: Fleeting Lesson %^{Tags}") :unnarrowed t)
-            ;; ("m" "Meeting" plain
-            ;; "* Category\n- Class: [[roam:Meeting]] \n- Topic: %?\n\n"
-            ;; :target (file+head "class/meeting/%<%Y%m%d%H%M%S>-${slug}.org"
-            ;;                    "#+title: ${title}\n#+filetags: Meeting") :unnarrowed t)
-            ;; ("p" "Project" plain
-            ;; "* Goals\n\n%?\n\n\* Tasks\n\n\** TODO Add Initial tasks\n\n* Dates\n\n"
-            ;; :if-new (file+head "Project/%<%Y%m%d%H%M%S>-${slug}.org"
-            ;;                    "#+title: ${title}\n#+filetags: Fleeting Project %^{Tags}") :unnarrowed t)
-            ;; ("b" "Book Notes" plain
-            ;;  (file "~/org-roam/Templates/BookNoteTemplate.org")
-            ;; :if-new (file+head "Books/%<%Y%m%d%H%M%S>-${slug}.org"
-            ;;                    "#+title: ${title}\n#+filetags: Fleeting Book Notes %^{Tags}") :unnarrowed t)
-
+            ("d" "DevOps" plain
+            "* Category\n- Class: [[roam:DevOps]] \n- Topic: %?\n\n* Reference: \n\n"
+            :target (file+head "DevOps/%<%Y%m%d%H%M%S>-${slug}.org"
+                               "#+title: ${title}\n#+filetags: DevOps Fleeting %^{Tags}") :unnarrowed t)
         )
     )
     :config
     (org-roam-db-autosync-enable)
 )
 
-;; Ranger
-;; (ranger-override-dired-mode t)
-;; (setq ranger-hide-cursor nil)
-;; (setq ranger-cleanup-on-disable t)
-;; (setq ranger-preview-file t)
-;; (setq ranger-dont-show-binary t)
-;; (setq ranger-excluded-extensions '("mkv" "iso" "mp4"))
-;; (setq ranger-max-preview-size 10)
+;; org-babel-execute ts
+;;(require 'ob-js)
+;;
+;;(defun org-babel-execute:typescript (body params)
+;;  (let ((org-babel-js-cmd "npx ts-node < "))
+;;    (org-babel-execute:js body params)))
+
+;; mu4e
+(use-package mu4e
+  :ensure nil
+  :load-path "/usr/share/emacs/site-lisp/elpa-src/mu4e-1.8.7/"
+  ;; :defer 20 ; Wait until 20 seconds after startup
+  :config
+
+  ;; This is set to 't' to avoid mail syncing issues when using mbsync
+  (setq mu4e-change-filenames-when-moving t)
+
+  ;; Refresh mail using isync every 10 minutes
+  (setq mu4e-update-interval (* 10 60))
+  (setq mu4e-get-mail-command "mbsync -a")
+  (setq mu4e-root-maildir "~/Mail")
+
+  (setq mu4e-drafts-folder "/[Gmail]/Drafts")
+  (setq mu4e-sent-folder   "/[Gmail]/Sent Mail")
+  (setq mu4e-refile-folder "/[Gmail]/All Mail")
+  (setq mu4e-trash-folder  "/[Gmail]/Trash")
+
+(setq mu4e-maildir-shortcuts
+    '((:maildir "/Inbox"             :key ?i)
+      (:maildir "/[Gmail]/Sent Mail" :key ?s)
+      (:maildir "/[Gmail]/Trash"     :key ?t)
+      (:maildir "/[Gmail]/Drafts"    :key ?d)
+      (:maildir "/[Gmail]/All Mail"  :key ?a))))
+
+;; circe - irc
+(map! "C-c i"   #'circe)
+(setq circe-network-options
+     '(("Libera Chat"
+        :tls t
+        :nick "ro_sharp"
+        :sasl-username "ro_sharp"
+        :sasl-password "ahugun45"
+        :channels ("#linux")
+        )))
+;; hide join messages
+(setq circe-reduce-lurker-spam t)
+;; align messages
+(setq circe-format-say "{nick:-16s} {body}")
+
+;; emms
+(global-set-key (kbd "C-c e") 'emms)
+;; notifications
+(defun ts/showsong ()
+  (emms-next-noerror)
+  (set 'notifyid (dbus-call-method :session "org.kde.knotify" "/Notify" "org.kde.KNotify" "event" "emms_song" "emacs" '(:array (:variant nil)) "Currently Playing" (emms-show) '(:array :byte 0 :byte 0 :byte 0 :byte 0) '(:array) :int64 0))
+  (run-at-time "5 sec" nil 'dbus-call-method :session "org.kde.knotify" "/Notify" "org.kde.KNotify" "closeNotification" :int32 notifyid)
+  )
+(setq emms-player-next-function 'ts/showsong)  ;; covers
+  (setq emms-browser-covers #'emms-browser-cache-thumbnail-async)
+  (setq emms-browser-thumbnail-small-size 64)
+  (setq emms-browser-thumbnail-medium-size 128)
+  ;; history
+  (setq-default
+   emms-source-file-default-directory "HOME/Music/"
+   emms-source-playlist-default-format 'm3u
+   emms-playlist-mode-center-when-go t
+   emms-show-format "NP: %s"
+   emms-player-list '(emms-player-mpv)
+   emms-player-mpv-environment '("PULSE_PROP_media.role=music")
+   emms-player-mpv-parameters '("--quiet" "--really-quiet" "--no-audio-display" "--force-window=no" "--vo=null"
+  ))
+
+;; org-pomodoro
+(global-set-key (kbd "C-c o") 'org-pomodoro)
 
 ;; Forge
 (setq auth-sources '("~/.authinfo.gpg"))
@@ -270,31 +269,59 @@
           org-roam-ui-open-on-start t))
 
 ;; elfeed
-;;(global-set-key (kbd "C-x w") 'elfeed)
-;;(add-hook! 'elfeed-search-mode-hook #'elfeed-update)
-;;(setq elfeed-feeds
-;;      '(
-;;        "https://news.livedoor.com/topics/rss/top.xml"
-;;        "http://nullprogram.com/feed/"
-;;        "https://rubenerd.com/feed/"
-;;        "https://iximiuz.com/feed.rss"
-;;        "https://planet.emacslife.com/atom.xml"
-;;        "https://lukesmith.xyz/index.xml"
-;;        "https://reddit.com/r/linux.rss"
-;;        "https://reddit.com/r/emacs.rss"
-;;        "https://reddit.com/r/org-mode.rss"
-;;        "https://lobste.rs/rss"
-;;        "https://news.ycombinator.com/rss"
-;;        "https://www.redhat.com/sysadmin/rss.xml"
-;;        "https://lwn.net/headlines/rss"
-;;        "https://youtube.com/feeds/videos.xml?channel_id=UCFBjsYvwX7kWUjQoW7GcJ5A"
-;;        "https://youtube.com/feeds/videos.xml?channel_id=UC7yZ6keOGsvERMp2HaEbbXQ"
-;;        "https://www.youtube.com/feeds/videos.xml?channel_id=UCVls1GmFKf6WlTraIb_IaJg"
-;;        "https://youtube.com/feeds/videos.xml?channel_id=UCFq12kPZg4wTNPO7V_g3B-A"
-;;        "https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA"
-;;        "https://www.youtube.com/feeds/videos.xml?channel_id=UCCU0HzTA9ddqOgtuV-TJ9yw"
-;;        ))
-;;(setf url-queue-timeout 30)
+(global-set-key (kbd "C-x w") 'elfeed)
+(add-hook! 'elfeed-search-mode-hook #'elfeed-update)
+(setq elfeed-feeds
+      '(
+        ("https://news.livedoor.com/topics/rss/top.xml" japan)
+        ("https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml" nyt)
+        ("http://nullprogram.com/feed/" blog)
+        ("https://rubenerd.com/feed/" blog)
+        ("https://vkc.sh/feed/" blog)
+        ("https://iximiuz.com/feed.rss" blog)
+        ("https://planet.emacslife.com/atom.xml" emacs)
+        ("https://lukesmith.xyz/index.xml" blog)
+        ("https://reddit.com/r/linux.rss" reddit)
+        ("https://reddit.com/r/emacs.rss" reddit)
+        ("https://reddit.com/r/org-mode.rss" reddit)
+        ("https://lobste.rs/rss" lobster)
+        ("https://news.ycombinator.com/rss" hn)
+        ("https://www.redhat.com/sysadmin/rss.xml" redhat)
+        ("https://lwn.net/headlines/rss")
+        ("https://youtube.com/feeds/videos.xml?channel_id=UCFBjsYvwX7kWUjQoW7GcJ5A" youtube)
+        ("https://youtube.com/feeds/videos.xml?channel_id=UC7yZ6keOGsvERMp2HaEbbXQ" youtube)
+        ("https://www.youtube.com/feeds/videos.xml?channel_id=UCVls1GmFKf6WlTraIb_IaJg" youtube)
+        ("https://youtube.com/feeds/videos.xml?channel_id=UCFq12kPZg4wTNPO7V_g3B-A" youtube)
+        ("https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA" youtube)
+        ("https://www.youtube.com/feeds/videos.xml?channel_id=UCCU0HzTA9ddqOgtuV-TJ9yw" youtube)
+
+        ("http://asert.arbornetworks.com/feed/" security)
+        ("http://feeds.feedburner.com/feedburner/Talos?format=xml" security)
+        ("http://feeds.trendmicro.com/Anti-MalwareBlog/" security)
+        ("http://researchcenter.paloaltonetworks.com/unit42/feed/" security)
+        ("https://www.proofpoint.com/rss.xml" security)
+        ("https://www.bellingcat.com/feed/" security)
+        ("https://nomasters.io/index.xml" blog tech)
+        ("http://www.reddit.com/r/ReverseEngineering/.rss" security reddit)
+        ("https://www.reddit.com/r/listentothis/.rss" reddit)
+        ("https://www.youtube.com/feeds/videos.xml?channel_id=UCWZ3HFiJkxG1K8C4HVnyBvQ" youtube) ;; Vic Berger
+        ("https://www.youtube.com/feeds/videos.xml?channel_id=UC--DwaiMV-jtO-6EvmKOnqg" youtube) ;; OA Labs
+        ("https://www.youtube.com/feeds/videos.xml?channel_id=UCbpMy0Fg74eXXkvxJrtEn3w" youtube) ;; Bon Apetit
+        ("https://www.youtube.com/feeds/videos.xml?channel_id=UC5fdssPqmmGhkhsJi4VcckA" youtube) ;; Innuendo Studios
+        ("https://usesthis.com/feed.atom")
+        ("https://greenbay.craigslist.org/search/sss?format=rss&query=accordion&sort=rel" hunt)
+        ("http://rss.acast.com/nature" podcast) ;; Nature
+        ("http://feeds.feedburner.com/birdnote/OYfP" podcast) ;; Bird Note
+        ("https://www.kcrw.com/culture/shows/nocturne/rss.xml" podcast) ;; Nocturne
+        ("http://feeds.wnyc.org/onthemedia" podcast) ;; On The Media
+        ("https://www.npr.org/rss/podcast.php?id=510289" podcast) ;; Planet Money
+        ("https://www.ftc.gov/feeds/press-release-consumer-protection.xml" gov first ftc)
+        ("https://api2.fcc.gov/edocs/public/api/v1/rss/" gov first fcc)
+        ("https://api2.fcc.gov/edocs/public/api/v1/rss/docTypes/Cit" gov first fcc)
+        ("http://licensing.fcc.gov/myibfs/yesterdaysFilingsFeed.do" gov first fcc)
+        ("http://licensing.fcc.gov/myibfs/yesterdaysActionsFeed.do" gov first fcc)
+        ))
+(setf url-queue-timeout 30)
 
 ;; calibre
 (global-set-key (kbd "C-x c") 'calibredb)
@@ -303,41 +330,12 @@
 (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
       TeX-view-program-list '(("PDF Tools" TeX-pdf-tools-sync-view))
       TeX-source-correlate-start-server t)
-
 (add-hook 'TeX-after-compilation-finished-functions
           #'TeX-revert-document-buffer)
-
 (pdf-tools-install)
 
-;; Whenever you reconfigure a package, make sure to wrap your config in an
-;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
-;;
-;;   (after! PACKAGE
-;;     (setq x y))
-;;
-;; The exceptions to this rule:
-;;
-;;   - Setting file/directory variables (like `org-directory')
-;;   - Setting variables which explicitly tell you to set them before their
-;;     package is loaded (see 'C-h v VARIABLE' to look up their documentation).
-;;   - Setting doom variables (which start with 'doom-' or '+').
-;;
-;; Here are some additional functions/macros that will help you configure Doom.
-;;
-;; - `load!' for loading external *.el files relative to this one
-;; - `use-package!' for configuring packages
-;; - `after!' for running code after a package has loaded
-;; - `add-load-path!' for adding directories to the `load-path', relative to
-;;   this file. Emacs searches the `load-path' when you load packages with
-;;   `require' or `use-package'.
-;; - `map!' for binding new keys
-;;
-;; To get information about any of these functions/macros, move the cursor over
-;; the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
-;; This will open documentation for it, including demos of how they are used.
-;; Alternatively, use `C-h o' to look up a symbol (functions, variables, faces,
-;; etc).
-;;
-;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
-;; they are implemented.
-;;
+;; eslint
+(setq lsp-eslint-server-command
+   '("node"
+     "/home/rosharp/.vscode/extensions/dbaeumer.vscode-eslint-2.0.11/server/out/eslintServer.js"
+     "--stdio"))
