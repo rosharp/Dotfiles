@@ -5,7 +5,7 @@
 (setq user-full-name "Vitaly Bekshnev"
       user-mail-address "vy.bekshnev@gmail.com")
 
-(setq browse-url-browser-function 'browse-url-firefox)
+(setq browse-url-browser-function 'browse-url-default-browser)
 
 ;; show scheduled date in org-agenda
 (setq org-columns-default-format
@@ -221,27 +221,16 @@
 (setq circe-format-say "{nick:-16s} {body}")
 
 ;; emms
-(global-set-key (kbd "C-c e") 'emms)
-;; notifications
-(defun ts/showsong ()
-  (emms-next-noerror)
-  (set 'notifyid (dbus-call-method :session "org.kde.knotify" "/Notify" "org.kde.KNotify" "event" "emms_song" "emacs" '(:array (:variant nil)) "Currently Playing" (emms-show) '(:array :byte 0 :byte 0 :byte 0 :byte 0) '(:array) :int64 0))
-  (run-at-time "5 sec" nil 'dbus-call-method :session "org.kde.knotify" "/Notify" "org.kde.KNotify" "closeNotification" :int32 notifyid)
-  )
-(setq emms-player-next-function 'ts/showsong)  ;; covers
-  (setq emms-browser-covers #'emms-browser-cache-thumbnail-async)
-  (setq emms-browser-thumbnail-small-size 64)
-  (setq emms-browser-thumbnail-medium-size 128)
-  ;; history
-  (setq-default
-   emms-source-file-default-directory "HOME/Music/"
-   emms-source-playlist-default-format 'm3u
-   emms-playlist-mode-center-when-go t
-   emms-show-format "NP: %s"
-   emms-player-list '(emms-player-mpv)
-   emms-player-mpv-environment '("PULSE_PROP_media.role=music")
-   emms-player-mpv-parameters '("--quiet" "--really-quiet" "--no-audio-display" "--force-window=no" "--vo=null"
-  ))
+(global-set-key (kbd "C-c e") 'emms-smart-browse)
+;; notifications in KDE
+(when (and window-system (executable-find "kdialog"))
+  (setq emms-player-next-function
+        (lambda ()
+          (emms-next-noerror)
+          (call-process "kdialog" nil nil nil "--title" "Emacs - EMMS"
+                        "--passivepopup" (emms-show) "5"))))
+;; history
+  (setq-default emms-source-file-default-directory "/home/rosharp/Music")
 
 ;; org-pomodoro
 (global-set-key (kbd "C-c o") 'org-pomodoro)
@@ -274,6 +263,8 @@
 (setq elfeed-feeds
       '(
         ("https://news.livedoor.com/topics/rss/top.xml" japan)
+        ("https://seance.ru/rss/" journal culture)
+        ("https://samkriss.substack.com/feed" essays culture)
         ("https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml" nyt)
         ("http://nullprogram.com/feed/" blog)
         ("https://rubenerd.com/feed/" blog)
