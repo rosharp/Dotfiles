@@ -32,9 +32,9 @@
 ;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
 ;;
 
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 15)
-      doom-variable-pitch-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 15)
-      doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 18))
+(setq doom-font (font-spec :family "Iosevka NF" :size 15)
+      doom-variable-pitch-font (font-spec :family "Iosevka NF" :size 15)
+      doom-big-font (font-spec :family "Iosevka NF" :size 18))
 (after! doom-themes
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t))
@@ -80,23 +80,24 @@
        (goto-char limit)
        t)))
 
- (defun nb/refontify-on-linemove ()
-   "Post-command-hook"
-   (let* ((start (line-beginning-position))
-          (end (line-beginning-position 2))
-          (needs-update (not (equal start (car nb/current-line)))))
-     (setq nb/current-line (cons start end))
-     (when needs-update
-       (font-lock-fontify-block 3))))
 
- (defun nb/markdown-unhighlight ()
-   "Enable markdown concealling"
-   (interactive)
-   (markdown-toggle-markup-hiding 'toggle)
-   (font-lock-add-keywords nil '((nb/unhide-current-line)) t)
-   (add-hook 'post-command-hook #'nb/refontify-on-linemove nil t))
-
- (add-hook 'markdown-mode-hook #'nb/markdown-unhighlight)
+;;(defun nb/refontify-on-linemove ()
+;;   "Post-command-hook"
+;;   (let* ((start (line-beginning-position))
+;;          (end (line-beginning-position 2))
+;;          (needs-update (not (equal start (car nb/current-line)))))
+;;     (setq nb/current-line (cons start end))
+;;     (when needs-update
+;;       (font-lock-fontify-block 3))))
+;;
+;; (defun nb/markdown-unhighlight ()
+;;   "Enable markdown concealling"
+;;   (interactive)
+;;   (markdown-toggle-markup-hiding 'toggle)
+;;   (font-lock-add-keywords nil '((nb/unhide-current-line)) t)
+;;   (add-hook 'post-command-hook #'nb/refontify-on-linemove nil t))
+;;
+;; (add-hook 'markdown-mode-hook #'nb/markdown-unhighlight)
 
 ;; Dashboard image
 (setq fancy-splash-image "/home/rosharp/.doom.d/splashes/emacs/emacs-gnu-logo.png")
@@ -165,6 +166,11 @@
             "* Category\n- Class: [[roam:DevOps]] \n- Topic: %?\n\n* Reference: \n\n"
             :target (file+head "DevOps/%<%Y%m%d%H%M%S>-${slug}.org"
                                "#+title: ${title}\n#+filetags: DevOps Fleeting %^{Tags}") :unnarrowed t)
+            ("p" "Presentation" plain
+             (file "~/org-roam/Templates/PresentationTemplate.org")
+            :target (file+head "Presentation/%<%Y%m%d%H%M%S>-${slug}.org"
+                               "#+title: ${title}\n#+filetags: Fleeting Presentation %^{Tags}") :unnarrowed t)
+
         )
     )
     :config
@@ -246,7 +252,7 @@
     :after org-roam)
 
 (use-package! org-roam-ui
-    :after org-roam ;; or :after org
+    :after org ;; or :after org
 ;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
 ;;         a hookable mode anymore, you're advised to pick something yourself
 ;;         if you don't care about startup time, use
@@ -259,60 +265,60 @@
 
 ;; elfeed
 (global-set-key (kbd "C-x w") 'elfeed)
-(add-hook! 'elfeed-search-mode-hook #'elfeed-update)
-(setq elfeed-feeds
-      '(
-        ("https://news.livedoor.com/topics/rss/top.xml" japan)
-        ("https://seance.ru/rss/" journal culture)
-        ("https://samkriss.substack.com/feed" essays culture)
-        ("https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml" nyt)
-        ("http://nullprogram.com/feed/" blog)
-        ("https://rubenerd.com/feed/" blog)
-        ("https://vkc.sh/feed/" blog)
-        ("https://iximiuz.com/feed.rss" blog)
-        ("https://planet.emacslife.com/atom.xml" emacs)
-        ("https://lukesmith.xyz/index.xml" blog)
-        ("https://reddit.com/r/linux.rss" reddit)
-        ("https://reddit.com/r/emacs.rss" reddit)
-        ("https://reddit.com/r/org-mode.rss" reddit)
-        ("https://lobste.rs/rss" lobster)
-        ("https://news.ycombinator.com/rss" hn)
-        ("https://www.redhat.com/sysadmin/rss.xml" redhat)
-        ("https://lwn.net/headlines/rss")
-        ("https://youtube.com/feeds/videos.xml?channel_id=UCFBjsYvwX7kWUjQoW7GcJ5A" youtube)
-        ("https://youtube.com/feeds/videos.xml?channel_id=UC7yZ6keOGsvERMp2HaEbbXQ" youtube)
-        ("https://www.youtube.com/feeds/videos.xml?channel_id=UCVls1GmFKf6WlTraIb_IaJg" youtube)
-        ("https://youtube.com/feeds/videos.xml?channel_id=UCFq12kPZg4wTNPO7V_g3B-A" youtube)
-        ("https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA" youtube)
-        ("https://www.youtube.com/feeds/videos.xml?channel_id=UCCU0HzTA9ddqOgtuV-TJ9yw" youtube)
-
-        ("http://asert.arbornetworks.com/feed/" security)
-        ("http://feeds.feedburner.com/feedburner/Talos?format=xml" security)
-        ("http://feeds.trendmicro.com/Anti-MalwareBlog/" security)
-        ("http://researchcenter.paloaltonetworks.com/unit42/feed/" security)
-        ("https://www.proofpoint.com/rss.xml" security)
-        ("https://www.bellingcat.com/feed/" security)
-        ("https://nomasters.io/index.xml" blog tech)
-        ("http://www.reddit.com/r/ReverseEngineering/.rss" security reddit)
-        ("https://www.reddit.com/r/listentothis/.rss" reddit)
-        ("https://www.youtube.com/feeds/videos.xml?channel_id=UCWZ3HFiJkxG1K8C4HVnyBvQ" youtube) ;; Vic Berger
-        ("https://www.youtube.com/feeds/videos.xml?channel_id=UC--DwaiMV-jtO-6EvmKOnqg" youtube) ;; OA Labs
-        ("https://www.youtube.com/feeds/videos.xml?channel_id=UCbpMy0Fg74eXXkvxJrtEn3w" youtube) ;; Bon Apetit
-        ("https://www.youtube.com/feeds/videos.xml?channel_id=UC5fdssPqmmGhkhsJi4VcckA" youtube) ;; Innuendo Studios
-        ("https://usesthis.com/feed.atom")
-        ("https://greenbay.craigslist.org/search/sss?format=rss&query=accordion&sort=rel" hunt)
-        ("http://rss.acast.com/nature" podcast) ;; Nature
-        ("http://feeds.feedburner.com/birdnote/OYfP" podcast) ;; Bird Note
-        ("https://www.kcrw.com/culture/shows/nocturne/rss.xml" podcast) ;; Nocturne
-        ("http://feeds.wnyc.org/onthemedia" podcast) ;; On The Media
-        ("https://www.npr.org/rss/podcast.php?id=510289" podcast) ;; Planet Money
-        ("https://www.ftc.gov/feeds/press-release-consumer-protection.xml" gov first ftc)
-        ("https://api2.fcc.gov/edocs/public/api/v1/rss/" gov first fcc)
-        ("https://api2.fcc.gov/edocs/public/api/v1/rss/docTypes/Cit" gov first fcc)
-        ("http://licensing.fcc.gov/myibfs/yesterdaysFilingsFeed.do" gov first fcc)
-        ("http://licensing.fcc.gov/myibfs/yesterdaysActionsFeed.do" gov first fcc)
-        ))
-(setf url-queue-timeout 30)
+;;(add-hook! 'elfeed-search-mode-hook #'elfeed-update)
+;;(setq elfeed-add-feed
+;;      '(
+;;        ("https://news.livedoor.com/topics/rss/top.xml" japan)
+;;        ("https://seance.ru/rss/" journal culture)
+;;        ("https://samkriss.substack.com/feed" essays culture)
+;;        ;;("https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml" nyt)
+;;        ("http://nullprogram.com/feed/" blog)
+;;        ("https://rubenerd.com/feed/" blog)
+;;        ("https://vkc.sh/feed/" blog)
+;;        ("https://yakovfain.com/feed/" blog tech programming)
+;;        ("https://iximiuz.com/feed.rss" blog)
+;;        ("https://planet.emacslife.com/atom.xml" emacs)
+;;        ("https://lukesmith.xyz/index.xml" blog)
+;;        ;;("https://reddit.com/r/linux.rss" reddit)
+;;        ("https://reddit.com/r/emacs.rss" reddit)
+;;        ("https://reddit.com/r/org-mode.rss" reddit)
+;;        ("https://lobste.rs/rss" lobster)
+;;        ("https://news.ycombinator.com/rss" hn)
+;;        ("https://www.redhat.com/sysadmin/rss.xml" redhat)
+;;        ("https://lwn.net/headlines/rss")
+;;        ("https://youtube.com/feeds/videos.xml?channel_id=UCFBjsYvwX7kWUjQoW7GcJ5A" youtube)
+;;        ("https://youtube.com/feeds/videos.xml?channel_id=UC7yZ6keOGsvERMp2HaEbbXQ" youtube)
+;;        ("https://www.youtube.com/feeds/videos.xml?channel_id=UCVls1GmFKf6WlTraIb_IaJg" youtube)
+;;        ("https://youtube.com/feeds/videos.xml?channel_id=UCFq12kPZg4wTNPO7V_g3B-A" youtube)
+;;        ("https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA" youtube)
+;;        ("https://www.youtube.com/feeds/videos.xml?channel_id=UCCU0HzTA9ddqOgtuV-TJ9yw" youtube)
+;;
+;;        ("http://asert.arbornetworks.com/feed/" security)
+;;        ("http://feeds.feedburner.com/feedburner/Talos?format=xml" security)
+;;        ("http://feeds.trendmicro.com/Anti-MalwareBlog/" security)
+;;        ("http://researchcenter.paloaltonetworks.com/unit42/feed/" security)
+;;        ("https://www.proofpoint.com/rss.xml" security)
+;;        ("https://www.bellingcat.com/feed/" security)
+;;        ("https://nomasters.io/index.xml" blog tech)
+;;        ("http://www.reddit.com/r/ReverseEngineering/.rss" security reddit)
+;;        ("https://www.youtube.com/feeds/videos.xml?channel_id=UCWZ3HFiJkxG1K8C4HVnyBvQ" youtube) ;; Vic Berger
+;;        ("https://www.youtube.com/feeds/videos.xml?channel_id=UC--DwaiMV-jtO-6EvmKOnqg" youtube) ;; OA Labs
+;;        ("https://www.youtube.com/feeds/videos.xml?channel_id=UCbpMy0Fg74eXXkvxJrtEn3w" youtube) ;; Bon Apetit
+;;        ("https://www.youtube.com/feeds/videos.xml?channel_id=UC5fdssPqmmGhkhsJi4VcckA" youtube) ;; Innuendo Studios
+;;        ("https://usesthis.com/feed.atom")
+;;        ("https://greenbay.craigslist.org/search/sss?format=rss&query=accordion&sort=rel" hunt)
+;;        ("http://rss.acast.com/nature" podcast) ;; Nature
+;;        ("http://feeds.feedburner.com/birdnote/OYfP" podcast) ;; Bird Note
+;;        ("https://www.kcrw.com/culture/shows/nocturne/rss.xml" podcast) ;; Nocturne
+;;        ("http://feeds.wnyc.org/onthemedia" podcast) ;; On The Media
+;;        ("https://www.npr.org/rss/podcast.php?id=510289" podcast) ;; Planet Money
+;;        ("https://www.ftc.gov/feeds/press-release-consumer-protection.xml" gov first ftc)
+;;        ("https://api2.fcc.gov/edocs/public/api/v1/rss/" gov first fcc)
+;;        ("https://api2.fcc.gov/edocs/public/api/v1/rss/docTypes/Cit" gov first fcc)
+;;        ("http://licensing.fcc.gov/myibfs/yesterdaysFilingsFeed.do" gov first fcc)
+;;        ("http://licensing.fcc.gov/myibfs/yesterdaysActionsFeed.do" gov first fcc)
+;;        ))
+;;(setf url-queue-timeout 30)
 
 ;; calibre
 (global-set-key (kbd "C-x c") 'calibredb)
