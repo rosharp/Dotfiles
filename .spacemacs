@@ -333,7 +333,7 @@ It should only modify the values of Spacemacs settings."
                                :size 13.0
                                :weight normal
                                :width normal
-                               :powerline-scale 1.1)
+                               :powerline-scale 0.7)
 
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
