@@ -9,22 +9,22 @@
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)
 
-;;(package! elfeed)
-(package! elfeed-org)
+;; (package! elfeed)
+;; (package! elfeed-org)
 (package! forge)
 (package! github-review)
-(package! calibredb)
-(package! nov)
-(package! mentor)
-(package! modus-themes)
+;; (package! calibredb)
+;; (package! nov)
+;; (package! mentor)
+;; (package! modus-themes)
 (package! fzf)
 (package! org-ros)
-(package! ox-reveal)
+;; (package! ox-reveal)
 
-(package! dired-open)
-(package! dired-subtree)
-(package! peep-dired)
-(package! diredfl)
+;; (package! dired-open)
+;; (package! dired-subtree)
+;; (package! peep-dired)
+;; (package! diredfl)
 
 (unpin! org-roam)
 (package! org-notifications)
@@ -42,9 +42,9 @@
                          ("build" "server")
                          (:exclude "lisp/tablist.el" "lisp/tablist-filter.el"))))
 
-(package! image-roll :recipe
-          (:host github
-                 :repo "dalanicolai/image-roll.el"))
+;;(package! image-roll :recipe
+;;          (:host github
+;;                 :repo "dalanicolai/image-roll.el"))
 
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
