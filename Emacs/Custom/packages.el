@@ -1,11 +1,13 @@
-(global-set-key (kbd "C-c C-t") 'shell-pop)
-
 ;; Set up package.el to work with MELPA
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 (package-refresh-contents)
+
+;; Theme
+(use-package nano-theme
+  :config (load-theme 'nano t))
 
 ;; Evil
 (unless (package-installed-p 'evil)
@@ -110,10 +112,6 @@
  '(shell-pop-restore-window-configuration t)
  '(shell-pop-cleanup-buffer-at-process-exit t))
 
-;; Theme
-(use-package nano-theme
-  :config (load-theme 'nano t))
-
 ;; org-bullets
 (require 'org-bullets)
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
@@ -159,26 +157,10 @@
          (file "~/org-roam/Templates/DefaultTemplate.org")
         :target (file+head "Misc/%<%Y%m%d%H%M%S>-${slug}.org"
                            "#+title: ${title}\n#+filetags: Fleeting Misc %^{Tags}") :unnarrowed t)
-        ("g" "GNU/Linux" plain
-         (file "~/org-roam/Templates/LinuxTemplate.org")
-        :target (file+head "Linux/%<%Y%m%d%H%M%S>-${slug}.org"
-                           "#+title: ${title}\n#+filetags: Fleeting Linux %^{Tags}") :unnarrowed t)
         ("s" "Software engineering" plain
          (file "~/org-roam/Templates/SoftEngTemplate.org")
         :target (file+head "Softeng/%<%Y%m%d%H%M%S>-${slug}.org"
                            "#+title: ${title}\n#+filetags: Fleeting SoftEng %^{Tags}") :unnarrowed t)
-        ("n" "Networking" plain
-         (file "~/org-roam/Templates/NetworkingTemplate.org")
-        :target (file+head "Networking/%<%Y%m%d%H%M%S>-${slug}.org"
-                           "#+title: ${title}\n#+filetags: Fleeting Networking %^{Tags}") :unnarrowed t)
-        ("t" "Testing" plain
-         (file "~/org-roam/Templates/TestingTemplate.org")
-        :target (file+head "Testing/%<%Y%m%d%H%M%S>-${slug}.org"
-                           "#+title: ${title}\n#+filetags: Fleeting Testing %^{Tags}") :unnarrowed t)
-        ("d" "DevOps" plain
-        "* Category\n- Class: [[roam:DevOps]] \n- Topic: %?\n\n* Reference: \n\n"
-        :target (file+head "DevOps/%<%Y%m%d%H%M%S>-${slug}.org"
-                           "#+title: ${title}\n#+filetags: DevOps Fleeting %^{Tags}") :unnarrowed t)
         ("p" "Presentation" plain
          (file "~/org-roam/Templates/PresentationTemplate.org")
         :target (file+head "Presentation/%<%Y%m%d%H%M%S>-${slug}.org"

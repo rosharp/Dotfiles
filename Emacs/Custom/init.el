@@ -3,12 +3,18 @@
 (when (file-exists-p custom-file)
   (load custom-file))
 
-;; Set default font
-(set-frame-font "Iosevka NF-14" nil t)
+;; Define the init file
+(setq custom-file (expand-file-name "packages.el" user-emacs-directory))
+(when (file-exists-p custom-file)
+  (load custom-file))
+
+;; Move customization variables
+(setq custom-file (locate-user-emacs-file "custom-vars.el"))
+(load custom-file 'noerror 'nomessage)
 
 ;; Remove startup message and enable the bell
 (setq inhibit-startup-message t
-      visible-bell t)
+      visible-bell nil)
 
 ;; Wrap text
 (global-visual-line-mode t)
@@ -37,7 +43,3 @@
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (defalias 'yes-or-no-p 'y-or-n-p)
-
-;; Move customization variables
-(setq custom-file (locate-user-emacs-file "custom-vars.el"))
-(load custom-file 'noerror 'nomessage)
