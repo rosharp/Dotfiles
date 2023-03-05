@@ -1,0 +1,87 @@
+(global-visual-line-mode t)
+
+;; Set default font
+(set-face-attribute 'default nil
+                    :family "Iosevka NF"
+                    :height 120
+                    :weight 'normal
+                    :width 'normal)
+
+;; Theme
+(use-package nano-theme
+  :config (load-theme 'nano t))
+
+;; Keyboard-centric user interface
+(setq inhibit-startup-message t)
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+(defalias 'yes-or-no-p 'y-or-n-p)
+
+;; org-bullets
+(require 'org-bullets)
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+
+;; ORG-ROAM
+(setq org-directory "~/org-roam")
+(setq org-agenda-files '("~/org-roam/daily"))
+
+(add-to-list 'display-buffer-alist
+             '("\\*org-roam\\*"
+               (display-buffer-in-side-window)
+               (side . right)
+               (window-width . 0.4)
+               (window-height . fit-window-to-buffer)))
+
+(setq org-roam-v2-ack t)
+(setq org-roam-directory "~/org-roam"
+      org-roam-complete-everywhere t
+      org-hide-emphasis-markers t)
+(setq org-roam-capture-templates
+    '(
+        ("d" "Default" plain
+         (file "~/org-roam/Templates/DefaultTemplate.org")
+        :target (file+head "Misc/%<%Y%m%d%H%M%S>-${slug}.org"
+                           "#+title: ${title}\n#+filetags: Fleeting Misc %^{Tags}") :unnarrowed t)
+        ("g" "GNU/Linux" plain
+         (file "~/org-roam/Templates/LinuxTemplate.org")
+        :target (file+head "Linux/%<%Y%m%d%H%M%S>-${slug}.org"
+                           "#+title: ${title}\n#+filetags: Fleeting Linux %^{Tags}") :unnarrowed t)
+        ("s" "Software engineering" plain
+         (file "~/org-roam/Templates/SoftEngTemplate.org")
+        :target (file+head "Softeng/%<%Y%m%d%H%M%S>-${slug}.org"
+                           "#+title: ${title}\n#+filetags: Fleeting SoftEng %^{Tags}") :unnarrowed t)
+        ("n" "Networking" plain
+         (file "~/org-roam/Templates/NetworkingTemplate.org")
+        :target (file+head "Networking/%<%Y%m%d%H%M%S>-${slug}.org"
+                           "#+title: ${title}\n#+filetags: Fleeting Networking %^{Tags}") :unnarrowed t)
+        ("t" "Testing" plain
+         (file "~/org-roam/Templates/TestingTemplate.org")
+        :target (file+head "Testing/%<%Y%m%d%H%M%S>-${slug}.org"
+                           "#+title: ${title}\n#+filetags: Fleeting Testing %^{Tags}") :unnarrowed t)
+        ("d" "DevOps" plain
+        "* Category\n- Class: [[roam:DevOps]] \n- Topic: %?\n\n* Reference: \n\n"
+        :target (file+head "DevOps/%<%Y%m%d%H%M%S>-${slug}.org"
+                           "#+title: ${title}\n#+filetags: DevOps Fleeting %^{Tags}") :unnarrowed t)
+        ("p" "Presentation" plain
+         (file "~/org-roam/Templates/PresentationTemplate.org")
+        :target (file+head "Presentation/%<%Y%m%d%H%M%S>-${slug}.org"
+                           "#+title: ${title}\n#+filetags: Fleeting Presentation %^{Tags}") :unnarrowed t)
+
+    )
+)
+(org-roam-db-autosync-enable)
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(magit consult marginalia orderless company-suggest org-bullets vertico-posframe vertico-prescient vertico-mode vertico company org-roam evil use-package)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
