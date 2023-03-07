@@ -1,4 +1,18 @@
 ;;; -*- coding: utf-8; mode: lisp-data -*-
-(("/home/rosharp/.emacs.d/"
-  (dired-filename . "/home/rosharp/.emacs.d/config.el"))
- ("/home/rosharp/.emacs.d/config.el" . 211))
+(("/home/rosharp/Downloads/"
+  (dired-filename . "/home/rosharp/Downloads/.clang-format"))
+ ("/home/rosharp/org-roam/Softeng/20230307131224-gcore_interview.org" . 224)
+ ("/home/rosharp/.emacs.d/.cache/"
+  (dired-filename . "/home/rosharp/.emacs.d/.cache/.."))
+ ("/home/rosharp/.emacs.d/"
+  (dired-filename . "/home/rosharp/.emacs.d/.."))
+ ("/home/rosharp/Games/"
+  (dired-filename . "/home/rosharp/Games/.."))
+ ("/home/rosharp/Music/"
+  (dired-filename . "/home/rosharp/Music/.."))
+ ("/home/rosharp/"
+  (dired-filename . "/home/rosharp/Downloads"))
+ ("/home/rosharp/org-roam/Softeng/20230307131615-gcore_meetup_07_03.org" . 4807)
+ ("/home/rosharp/org-roam/Softeng/20230307123607-чек_лист.org" . 13)
+ ("/home/rosharp/org-roam/daily/2023-03-07.org" . 316)
+ ("/home/rosharp/.emacs.d/bookmarks" . 251))

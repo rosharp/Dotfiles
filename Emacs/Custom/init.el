@@ -1,20 +1,19 @@
-;; Define the init file
+;; Define the init files
+(load "~/.emacs.d/init-packages")
 (setq custom-file (expand-file-name "config.el" user-emacs-directory))
 (when (file-exists-p custom-file)
   (load custom-file))
-
-;; Define the init file
 (setq custom-file (expand-file-name "packages.el" user-emacs-directory))
 (when (file-exists-p custom-file)
   (load custom-file))
-
-;; Move customization variables
 (setq custom-file (locate-user-emacs-file "custom-vars.el"))
 (load custom-file 'noerror 'nomessage)
 
 ;; Remove startup message and enable the bell
 (setq inhibit-startup-message t
       visible-bell nil)
+
+(setq frame-resize-pixelwise t) 
 
 ;; Wrap text
 (global-visual-line-mode t)

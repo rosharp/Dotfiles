@@ -6,6 +6,14 @@
 
 ;; Set default font
 ;; (set-frame-font "Iosevka NF-14" nil t)
+(set-face-attribute 'default nil :family "Iosevka NF");Must be the FULL name (search-fonts "Hack") for it.
+(set-face-attribute 'default nil :height (* 13 10));13pt
+
+;; fancy lambdas
+(global-prettify-symbols-mode t)
+
+;; Make TAB act as if it were issued in a buffer of the language’s major mode.
+(setq org-src-tab-acts-natively t)
 
 ;; org
 (setq-default org-enforce-todo-dependencies t)
@@ -13,8 +21,11 @@
 (setq-default org-enforce-todo-dependencies t)
 
 (setq org-todo-keywords
-    (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-            (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)"))))
+  '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
+
+;; org-syntax highlighting
+(setq org-src-fontify-natively t)
+
 
 ;; ToDo faces
 (setq org-todo-keyword-faces
