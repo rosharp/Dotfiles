@@ -9,11 +9,46 @@
 (use-package nano-theme
   :config (load-theme 'nano t))
 
+;; Highlight uncommited changes
+(use-package diff-hl
+  :config
+  (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
+  (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode))
+
+;; smartparens
+(use-package smartparens
+  :ensure t
+  :diminish smartparens-mode
+  :config
+  (progn
+    (require 'smartparens-config)
+    (smartparens-global-mode 1)
+    (show-paren-mode t)))
+
+;; all-the-icons
+(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+(use-package all-the-icons)
+
+(use-package all-the-icons-dired
+  :config
+  :hook (dired-mode . (lambda ()
+                       (interactive)
+                       (unless (file-remote-p default-directory)
+                         (all-the-icons-dired-mode)))))
 ;; Evil
 (unless (package-installed-p 'evil)
   (package-install 'evil))
 (require 'evil)
 (evil-mode 1)
+
+(use-package evil-org
+  :after org
+  :config
+  (add-hook 'org-mode-hook 'evil-org-mode)
+  (add-hook 'evil-org-mode-hook
+        (lambda () (evil-org-set-key-theme)))
+  (require 'evil-org-agenda)
+  (evil-org-agenda-set-keys))
 
 ; Company
 (unless (package-installed-p 'evil)

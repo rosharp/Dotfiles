@@ -4,7 +4,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(hydra shell-pop magit consult marginalia orderless company-suggest org-bullets vertico-posframe vertico-prescient vertico-mode vertico company org-roam evil use-package))
+   '(evil-org smartparens diff-hl treemacs magit consult marginalia orderless company-suggest org-bullets vertico-posframe vertico-prescient vertico-mode vertico company org-roam evil use-package))
  '(shell-pop-autocd-to-working-dir t)
  '(shell-pop-cleanup-buffer-at-process-exit t)
  '(shell-pop-default-directory "/Users/kyagi/git")

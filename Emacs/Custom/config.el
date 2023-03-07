@@ -2,9 +2,16 @@
 (global-set-key (kbd "C-c C-t") 'shell-pop)
 (global-set-key (kbd "C-c r") 'recentf-open-files)
 (global-set-key (kbd "C-c g") 'magit)
+(global-set-key (kbd "C-c p") 'treemacs)
 
 ;; Set default font
-(set-frame-font "Iosevka NF-14" nil t)
+;; (set-frame-font "Iosevka NF-14" nil t)
+
+;; fancy lambdas
+(global-prettify-symbols-mode t)
+
+;; Make TAB act as if it were issued in a buffer of the language’s major mode.
+(setq org-src-tab-acts-natively t)
 
 ;; org
 (setq-default org-enforce-todo-dependencies t)
@@ -12,8 +19,11 @@
 (setq-default org-enforce-todo-dependencies t)
 
 (setq org-todo-keywords
-    (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-            (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)"))))
+  '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
+
+;; org-syntax highlighting
+(setq org-src-fontify-natively t)
+
 
 ;; ToDo faces
 (setq org-todo-keyword-faces

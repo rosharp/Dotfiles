@@ -1,0 +1,4 @@
+;;; -*- coding: utf-8; mode: lisp-data -*-
+(("/home/rosharp/.emacs.d/"
+  (dired-filename . "/home/rosharp/.emacs.d/config.el"))
+ ("/home/rosharp/.emacs.d/config.el" . 211))
