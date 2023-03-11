@@ -14,10 +14,10 @@
 
 ; list the packages you want
 (setq package-list
-      '(nano-theme diff-hl smartparens all-the-icons
+      '(diff-hl smartparens all-the-icons
 		   all-the-icons-dired evil evil-org company
 		   vertico savehist orderless marginalia org-bullets
-		   org-roam))
+		   org-roam dirvish vterm vterm-toggle))
 
 
 ; activate all the packages

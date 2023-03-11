@@ -2,12 +2,8 @@
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
-(package-initialize)
-(package-refresh-contents)
-
-;; Theme
-(use-package nano-theme
-  :config (load-theme 'nano t))
+;; (package-initialize)
+;; (package-refresh-contents)
 
 ;; Highlight uncommited changes
 (use-package diff-hl

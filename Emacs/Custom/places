@@ -1,15 +1,18 @@
 ;;; -*- coding: utf-8; mode: lisp-data -*-
-(("/home/rosharp/Downloads/"
+(("/home/rosharp/.emacs.d/"
+  (dired-filename . "/home/rosharp/.emacs.d/init-packages.el"))
+ ("/home/rosharp/.emacs.d/config.el" . 151)
+ ("/home/rosharp/.emacs.d/init-packages.el" . 629)
+ ("/home/rosharp/.emacs.d/init.el" . 2)
+ ("/home/rosharp/.emacs.d/packages.el" . 150)
+ ("/home/rosharp/.emacs.d/elpa/dirvish-20230123.1201/dirvish-autoloads.el" . 13581)
+ ("/home/rosharp/.emacs.d/elpa/vterm-toggle-20220820.1608/vterm-toggle-autoloads.el" . 1200)
+ ("/home/rosharp/.emacs.d/elpa/vterm-20230217.228/vterm-autoloads.el" . 2334)
+ ("/home/rosharp/Downloads/"
   (dired-filename . "/home/rosharp/Downloads/.clang-format"))
  ("/home/rosharp/org-roam/Softeng/20230307131224-gcore_interview.org" . 224)
- ("/home/rosharp/.emacs.d/.cache/"
-  (dired-filename . "/home/rosharp/.emacs.d/.cache/.."))
- ("/home/rosharp/.emacs.d/"
-  (dired-filename . "/home/rosharp/.emacs.d/.."))
  ("/home/rosharp/Games/"
   (dired-filename . "/home/rosharp/Games/.."))
- ("/home/rosharp/Music/"
-  (dired-filename . "/home/rosharp/Music/.."))
  ("/home/rosharp/"
   (dired-filename . "/home/rosharp/Downloads"))
  ("/home/rosharp/org-roam/Softeng/20230307131615-gcore_meetup_07_03.org" . 4807)
